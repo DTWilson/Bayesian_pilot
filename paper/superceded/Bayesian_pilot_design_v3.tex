@@ -1,0 +1,416 @@
+\documentclass{article} %[twocolumn]
+
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{textcomp}
+\usepackage{multirow}
+\usepackage{subfig}
+
+\DeclareMathOperator*{\argmax}{arg\,max} 
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\title{A Bayesian design for pilot trials for complex interventions}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\noindent\textbf{Background}: External pilot trials of complex interventions are used to help determine if and how a confirmatory trial should be undertaken, providing estimates of several parameters relating to trial feasibility and to the quality of the intervention. The decision to progress to the confirmatory trial is typically made by comparing these estimates to pre-specified thresholds known as progression criteria. However, the statistical properties of pilot designs and progression criteria are rarely assessed, leading to a poor understanding of the risks of making a poor decision. 
+
+\noindent\textbf{Methods}: We describe a Bayesian approach to analysing pilot data, making progression decisions, and evaluating the resulting statistical properties of proposed pilot designs. Decisions are based on minimising the expected value of a loss function. By defining loss over the whole parameter space we allow for preferences and trade-offs between multiple parameters to be articulated and used in the decision making process. The assessment of preferences is kept feasible by using a simple piecewise constant parametrisation of the loss function, the parameters of which are chosen to lead to desirable operating characteristics. We describe a flexible, yet computationally intensive, nested Monte Carlo algorithm for estimating operating characteristics.
+
+\noindent\textbf{Illustration}: The method is applied to an example pilot trial of a complex intervention in the care home setting, involving multiple parameters which inform the optimal progression decision. We show that reasonable operating characteristics of the pilot trial can be obtained, even when external information is ignored in the analysis through the use of weakly informative prior distributions. 
+
+\noindent\textbf{Conclusion}: A Bayesian approach to design and analysis can provide a way for preferences and trade-offs between the multiple parameters assessed in pilot trials to be articulated and used to make better progression decisions. Proposed pilot designs can be evaluated in terms of several operating characteristics, although the computation time required to do so may be restrictive in practice.
+
+\end{abstract}
+
+\section{Introduction}\label{sec:introduction}
+
+Randomised clinical trials (RCTs) of complex interventions can be compromised by facors such as slow patient recruitment, poor levels of adherence to the intervention or trail protocol, and low completeness of follow-up data. To anticipate these problems we often conduct small pilot trials prior to the main RCT~\cite{Craig2008}. These trials typically take the same form as the planned RCT but with a significantly lower sample size~\cite{Eldridge2016}. If there is a seamless gap between the pilot and the main RCT, with all data being pooled and used in the final analysis, they are known as internal pilots. External pilots, in contrast, are carried out separately to the main RCT using a separate protocol.
+
+Pilot trials use progression criteria to decide if the main RCT should go ahead, and if so, whether the intervention or the trial design should be adjusted to ensure success. In the UK, the the National Institute for Health Research ask that these criteria are pre-specified and included in the research plan~\cite{NIHR2017}. A single pilot trial can collect data on several progression criteria, often focused on the aforementioned areas of recruitment, protocol adherence, and data collection~\cite{Avery2017}. Reporting these criteria is required by the recent CONSORT extension to randomised pilot trials, which notes that investigators increasingly ``use a traffic light system for criteria used to judge feasibility, whereby measures (eg, recruitment rates) below a lower threshold indicate that the trial is not feasible, above a higher threshold that it is feasible, and between the two that it might be feasible if appropriate changes can be made''~\cite{Eldridge2016a}. The traffic light reference relates to the labelling of these three possible decisions as red, amber and green. %For example, in a pilot cluster randomised trial in care homes one progression criterion average number of residents recruited to the trial from each care home~\cite{Forster2017}. An average of 8 or fewer residents led to a red decision, 10 or more to a green, and between 8 and 10 to an amber. 
+
+Parameter estimates from pilots can be subject to considerable error~\cite{Eldridge2016a}, and so it may be that a certain progression criteria is met, or missed, due to sampling variation alone. We should, therefore, evaluate the statistical properties of any proposed pilot design and progression criteria before we implement them. However, despite the consequences of making incorrect progression decisions, such a statistical approach is not common practice in pilot trials. This may be due to the methodological challenges commonly found in  pilot trials of complex interventions, including the simultaneous evaluation of multiple endpoints, complex multi-level models, small sample sizes, and prior uncertainty in nuisnace parameters~\cite{Wilson2015}.
+
+In this paper we will describe a method for evaluating proposed pilot trial designs which addresses these challenges. We take a Bayesian view, where progression decisions are made to minimise the expected value of a loss function. In contrast to a fully decision-theoretic approach such as that outlined in~\cite{Lindley1997}, we do not consider the direct elicitation of a loss function. Instead, we define a simple parametric representation of it and show how the parameters can be chosen by considering the operating characteristics they lead to. The operating characteristics we propose are all unconditional probabilities (with respect to a prior distribution) of making incorrect decisions, also known as assurances~\cite{OHagan2005}. Using assurances rather than the analogous frequentist error rates brings several benefits, including the ability to make use of existing knowledge whilst allowing for any uncertainty, and a more natural interpretation~\cite{Crisp2018}. As we will show, assurances are also useful when our preferences for different end-of-trial decisions are based on several attributes in a complex way that involves trading off some against others.
+
+%First, we will describe to we can arrive at an optimal decision after obtaining some pilot data. Our approach involves choosing the action which minimises the expected loss incurred from making an incorrect decision. After we have a method for arriving at a decision, we then consider the properties of the proposed pilot calculated at the design stage. We define some relevant operating characteristics which we would like to minimise, and then show how we can approach this multi-objective minimisation problem where we can search over different parametrisations of the loss function. Note that the second step is not strictly necessary, but frees us from the direct elicitation of a loss function.
+
+The remainder of this paper is organised as follows. A motivating example of a pilot trial in a care home setting is introduced in Section~\ref{sec:motivating}. In Section~\ref{sec:methods} we describe the general framework for pilot design and analysis, some operating characteristics used for evaluation, and a routine for optimising the design. We return to the example in Section~\ref{sec:illustration} to illustrate the method's application, before discussing implications and limitations in Section~\ref{sec:discussion}.
+
+\section{Motivating example}\label{sec:motivating}
+
+
+The REACH (Research Exploring Physical Activity in Care Homes) trial aims to inform the feasibility and design of a future definitive RCT assessing a complex intervention designed to increase the physical activity of care home residents~\cite{Forster2017}. The trial is cluster randomised due to the whole-home nature of the intervention, which is designed to assist care-home staff to make step-by-step changes in their approach to working with residents. Twelve care homes are randomised equally to treatment as usual (TaU) or the intervention plus TaU.
+
+The trial will collect data on a number of measures relating to the feasibility of a future RCT, four of which we focus on here: Recruitment (measured in terms of the average number of residents in each care home who participate in the trial); adherence (a binary indicator at the care home level indicating if the intervention was fully implemented); data completion (a binary indicator for each resident of successful follow-up at the planned primary outcome time of 12 months); and efficacy (a continuous measure of physical activity at the resident level). Each of these four attributes are to be considered together when deciding if and how a confirmatory trial should be undertaken. The physical activity measure is assumed to be normally distributed with equal variance in each arm, and we expect clustering effects due to the intervention being delivered at the care home level. No precise estimates of either the total variance or the intra-cluster correlation coefficient are available, although studies in similar areas do provide some indication of likely values. The pilot trial will lead to small samples of data pertaining to both recruitment and delivery, as each is measured at the care home level. In particular, successful delivery can only be assessed at the six care homes in the intervention arm of the trial. 
+
+Given the proposed pilot design and sample size, we require a method specifying how progression decisions are to be made once the data has been obtained. Given this, we would like to understand the resulting statistical properties of the trial, in terms of how likely we are to make incorrect decisions, and to judge whether or not the pilot will be sufficiently reliable.
+
+%Two attributes, recruitment and data completion, relate to the amount of information we are likely to obtain in a future RCT and as such, poor performance in one attribute may be compensated by better performance in the other. The delivery and efficacy attributes will both feed into the effectiveness of the intervention as measured in a pragmatic RCT, and so again, an acceptable level of trade-off between these attributes is expected. 
+
+\section{Methods}\label{sec:methods}
+
+\subsection{Analysis and progression decisions}\label{sec:analysis}
+
+Consider a pilot trial which will produce data $x$ according to model $p(x | \theta)$. We decompose the parameters into $\theta = (\phi, \psi)$, where $\phi$ denotes the parameters of substantive interest and $\psi$ the nuisance parameters. We follow~\cite{Wang2002} and assume that two joint prior distributions of $\theta$ have been specified, one each for the design and analysis stages of the trial. The first, denoted $p_{D}(\theta)$, is a completely subjective prior which fully expresses our current knowledge and uncertainty in the parameters. This will be used when evaluating the design of the pilot. The second prior, $p_A(\theta)$, will be used when analysing the pilot data. Although it may be that $p_A(\theta) = p_D(\theta)$, separating the two will let us use a less informative prior in the analysis.
+
+%We do not require any particular restrictions regarding the form of the model or the prior distribution, other than that samples from the prior and the posterior $p(\theta | x)$ can be generated.
+
+After observing the pilot data $x$, we must decide whether or not to progress to the main RCT. We consider three possible actions following the aforementioned `traffic light' system commonly used in pilot trials: 
+\begin{itemize}
+\item \emph{r}ed - discard the intervention and stop all future development or evaluation; 
+\item \emph{a}mber - proceed to the main RCT, but only after some modifications to the intervention, the planned trial design, or both, have been made; or
+\item \emph{g}reen - proceed immediately to the main RCT.
+\end{itemize}
+ 
+We assume that our preferences between the three possible decisions are influenced by $\phi$ but independent of $\psi$, formalising the separation of $\theta$ into substantive and nuisance components. We also assume that for any value of $\phi$ there will be a decision which is considered preferable to the others. That is, there are no parameter values for which we are completely indifferent between the possible decisions. Under this assumption we can partition the substantive parameter space $\Phi$ into three subsets where each decision is optimal. We denote these subsets by $\Phi_{I} = \{ \phi \in \Phi \mid i \succ j ~\forall ~j \neq i \in \mathcal{D} \}$, for $I = R, A, G$. We will henceforth refer to these three subsets as \emph{hypotheses}. Throughout, we will distinguish hypothesis $I$ from the corresponding optimal decision $i$ by using capital and lower case letters respectively.
+
+When $\phi \in \Phi_{I}$ and we choose a decisions $j \neq i$, there will be negative consequences. In particular, we may: proceed to a futile main RCT; make unnecessary adjustments to the intervention or trial design; or discard a promising intervention. We assume that for each of these consequences there is a fixed cost, denoted $c_1, c_2$ and $c_3$ respectively. The total costs associated with making decision $j$ under hypothesis $I$ are given by a piecewise constant loss function  $L(d, \Phi_{I}): \{r, a, g\} \times \{\Phi_{R}, \Phi_{R}, \Phi_{R}\} \rightarrow [0,1]$ which takes values as given in Table~\ref{tab:loss}. For example, making decision $a$ when $\phi \in \Phi_{R}$ will lead to both a futile trial and unnecessary adjustments, and so will incur a cost $c_{1} + c_{2}$.
+
+\begin{table}
+\centering
+\begin{tabular}{r r c c c}
+\toprule
+& & \multicolumn{3}{c}{Hypothesis} \\
+& & $\Phi_{R}$ & $\Phi_{A}$ & $\Phi_{G}$ \\
+\midrule
+\multirow{3}{*}{Decision} & $r$ & 0 & $c_{3}$ & $c_{3}$ \\
+ & $a$ & $c_{1} + c_{2}$ & 0 & $c_{2}$ \\
+ & $g$ & $c_{1}$ & $c_{1} + c_{3}$ & 0  \\
+\bottomrule
+\end{tabular}
+\caption{Costs of decisions under hypotheses.}
+\label{tab:loss}
+\end{table}
+
+%This allows us to define a function $a_{\mathbf{c}}(p_{R}, p_{G}): \mathcal{P} \rightarrow \mathcal{D}$ mapping the posterior probabilities $(p_{R}, p_{G}) \in \mathcal{P} = \{[0,1]^{2} \mid 0 \leq p_{R} + p_{G} \leq 1 \}$ (noting that $p_{A} = 1 - p_{R} - p_{G}$) to the optimal decision rule and parametrised by the cost vector $\mathbf{c} = (c_1, c_2, c_3)$.
+
+Given a loss function with cost parameters $\mathbf{c} = (c_1, c_2, c_3)$, we follow the principle of maximising expected utility (or in our case, minimising the expected loss) when making a decision. To do so, we first use the pilot data in conjugation with the analysis prior $p_{A}(\theta)$ to obtain a (marginal) posterior $p(\phi ~|~ x)$, and then choose the decision $i^{*}$ such that 
+\begin{align}
+i^{*} & = \argmin_{i \in \{r,a,g\}} \mathbb{E}_{\phi | x} [ L(i, \phi) ] \\
+ & = \argmin_{i \in \{r,a,g\}} \int L(i, \phi) p(\phi | x) d\phi.
+\end{align}
+We can simplify this expression by noting that, given the piecewise constant nature of the loss function, the expected loss of each decision depends only on the posterior probabilities $p_{I} =  Pr[\phi \in \Phi_{I} ~|~ x]$ for $I = R, A, G$ and the costs $\mathbf{c}$:
+\begin{align}\label{eqn:exp_loss}
+\mathbb{E}_{\phi | x} [ L(r, \phi) ] & = p_{A}c_{3} + p_{G}c_{3}, \\
+\mathbb{E}_{\phi | x} [ L(a, \phi) ] & = p_{R}c_{1} + p_{R}c_{2} + p_{G}c_{2}, \\
+\mathbb{E}_{\phi | x} [ L(g, \phi) ] & = p_{R}c_{1} + p_{A}c_{1} + p_{A}c_{3}.
+\end{align}
+Monte Carlo (MC) estimates of the posterior probabilities $p_I$ can be computed based on the samples from the joint posterior distribution generated by an MCMC analysis of the pilot data. Specifically, given $M$ samples $\phi^{(1)}, \phi^{(2)}, \ldots , \phi^{(M)} \sim p(\phi ~|~ x)$, 
+\begin{equation}
+p_I \approx \frac{1}{M} \sum_{k = 1}^{M}  \mathbb{I}(\phi^{(k)} \in \Phi_I),
+\end{equation}
+where $\mathbb{I}(.)$ is the indicator function.
+
+\subsection{Operating characteristics}\label{sec:evaluation}
+
+Defining a loss function and following the steps of the preceding section effectively prescribes a decision rule mapping the pilot data sample space $\mathcal{X}$ to the decision space $\{r, a, g\}$. To gain some insight at the design stage into the properties of this rule, we propose to calculate some trial operating characteristics. These take the form of unconditional probabilities of making a mistake when following the rule, calculated with respect to the design prior $p_D(\theta)$. We consider the following:
+\begin{itemize}
+\item $OC_1$ - probability of proceeding to a \emph{futile main RCT};
+\item $OC_2$ - probability of making \emph{unnecessary adjustments} to the intervention or the trial design;
+\item $OC_3$ - probability of \emph{discarding a promising intervention}.
+\end{itemize}
+
+These operating characteristics can be estimated using simulation. First, we draw $N$ samples $(\theta^{(1)}, x^{(1)}), (\theta^{(2)}, x^{(2)}), \ldots , (\theta^{(N)}, x^{(N)})$ from the joint distribution $p(\theta, x) = p(x | \theta)p_D(\theta)$. For each data set we then apply the analysis and decision making procedure described in Section~\ref{sec:analysis}, using some cost vector $\mathbf{c}$ to parametrise the loss function. This results in $N$ decisions $i^{(k)}$ which can be contrasted with the corresponding true parameter value $\theta^{(k)}$, noting if any of the three types of errors had been made. MC estimates of the operating characteristics can then be calculated as the proportion of occurrences of each type of error in the $N$ simulated cases.
+
+Assuming that $N$ is large, the unbiased MC estimate of an operating characteristic with true probability $p$ will be approximately normally distributed with variance $p(1-p)/N$. This assumes that, for each data set, the analysis that is simulated corresponds exactly to the analysis that would be carried out in practice. In particular, we assume that exactly $M$ posterior samples will be generated by the MCMC algorithm and that the same number will be used to seed the random number generator. 
+
+%Given a proposed design we will evaluate the trial using the three operating characteristics
+%\begin{equation}
+%OC_{i}(\mathbf{c}) = \text{Pr}_{\theta, x} [E_{i}], i=1,2,3.
+%\end{equation}
+%That is, operating characteristic $OC_{i}(\mathbf{c})$ is the unconditional probability of making en error $E_{i}$ with respect to the joint prior distribution over the parameters $\theta$ and pilot data $x$, given costs $\mathbf{c}$. 
+%
+%Each operating characteristic can be specified in terms of the probabilities of making decision $j$ when $\phi \in \Phi_{I}$, as set out in Table~\ref{tab:probs}:
+%
+%\begin{table}
+%\centering
+%\begin{tabular}{r r r r r r}
+%\toprule
+%& & \multicolumn{3}{c}{Truth} & \\
+%& & $R$ & $A$ & $G$ & \\
+%\midrule
+%\multirow{3}{*}{Decision} & $r$ & $p_{R,r}$ & $p_{A,r}$ & $p_{G,r}$ & $A_{r}$ \\
+% & $a$ & $p_{R,a}$ & $p_{A,a}$ & $p_{G,a}$ & $A_{a}$ \\
+% & $g$ & $p_{R,g}$ & $p_{A,g}$ & $p_{G,g}$ & $A_{g}$ \\
+% \midrule
+% & & $\Phi_{R}$ & $\Phi_{A}$ & $\Phi_{G}$ & 1 \\
+%\bottomrule
+%\end{tabular}
+%\caption{Probabilities of decisions and hypotheses.}
+%\label{tab:probs}
+%\end{table}
+%
+%\begin{enumerate}
+%\item $OC_{1}$ - running a futile confirmatory trial ($p_{R,a} + p_{R,g} + p_{A,g}$);
+%\item $OC_{2}$ - making unnecessary adjustments ($p_{R,a} + p_{G,a}$);
+%\item $OC_{3}$ - discarding a promising intervention ($p_{A,r} + p_{G,r} + p_{A,g}$).
+%\end{enumerate}
+%
+%The probability of making decision $j$ when $\phi \in \Phi_{I}$ can be written as
+%\begin{equation}
+%p_{I,j} = \mathbb{E}_{\theta, x} [ \mathbb{I}(\phi \in \Phi_{I} ~\&~ a_{\mathbf{c}}(p_{R}, p_{G}) = j) ],
+%\end{equation}
+%where the expectation is with respect to the prior distribution $p(\theta, x)$ and $\mathbb{I}(.)$ is the indicator function. We can compute Monte Carlo estimates of these probabilities by sampling $\theta^{(1)}, \ldots , \theta^{(N)}$ from the prior distribution $p(\theta)$, from which we extract $\phi^{(1)}, \ldots , \phi^{(N)}$. For each $\theta^{(k)}$, data $x^{(k)} \sim p(x | \theta^{(k)})$ is then simulated. A Bayesian analysis is conducted, from which the posterior probabilities $p_{R}^{(k)}, p_{G}^{(k)}$ are extracted. We then have
+%\begin{equation} \label{eqn:MC_prob}
+%p_{i,j} \approx \frac{1}{N} \sum_{k=1}^{N} \mathbb{I}(\phi^{(k)} \in \Phi_{I}, a(p_{R}^{(k)}, p_{G}^{(k)}) = j).
+%\end{equation}
+%
+%When MCMC is used to perform the Bayesian analysis the posterior probability $p_{R}^{(k)}$(likewise $p_{G}^{(k)}$) is itself a Monte Carlo estimate, based on $M$ samples $\phi^{(m)}$ from the marginal posterior distribution $p(\phi | x^{(k)})$. Specifically,
+%\begin{align}
+%p_{R}^{(k)} &= \mathbb{E}_{\phi \mid x^{(k)}} [ \mathbb{I}(\phi \in \Phi_{R}) ] \\
+% & \approx \frac{1}{M} \sum_{m=1}^{M} \mathbb{I}(\phi^{(m)} \in \Phi_{R}).
+%\end{align}
+%We assume that $M$ MCMC samples will be used when calculating the posterior probabilities $p_{R}, p_{G}$ given the actual observed pilot data, and thus that the process being simulated corresponds exactly to that which will be carried out in practice. Any error in the estimation of $p_{I,j}$ therefore stems only from the finite number of samples used in the outer loop, $N$. For large $N$ the error of the unbiased MC estimate of any probability $p$, including each of the operating characteristics, will be normally distributed with variance approximately equal to $p(1-p)/N$.
+
+\subsection{Optimisation}\label{sec:optimisation}
+
+In some cases the cost parameters $\mathbf{c} = (c_1, c_2, c_3)$ could be chosen so as to accurately reflect the preferences, under uncertainty, of the decision maker. However, the elicitation of these preferences can be difficult~\cite{Keeney1976}, and so we propose an alternative approach here where we try to optimise the value of $\mathbf{c}$ with respect to the operating characteristics it results in (assuming the pilot design is fixed). Thinking of operating characteristics as functions of costs, we wish to solve the multi-objective optimisation problem
+\begin{equation}\label{eqn:opt}
+\min_{\mathbf{c} \in \mathcal{C}} ~ OC_{1}(\mathbf{c}),~ OC_{2}(\mathbf{c}),~ OC_{3}(\mathbf{c}),
+\end{equation}
+where $\mathcal{C} = \{c_{1}, c_{2} \in [0,1] ~|~ c_{1} + c_{2} \leq 1\}$. This restriction of the search space is possible because a loss function is strategically equivalent to any linear transformation of itself, allowing the costs parameters to be scaled to $c_{1} + c_{2} + c_{3} = 1$. 
+
+The three operating characteristics are in conflict in the sense that a decrease in one will generally be accompanied by an increase in another. We would therefore like to find a set of costs $\mathcal{C}^* = \{ \mathbf{c}^{(1)}, \mathbf{c}^{(2)}, \ldots, \mathbf{c}^{(K)} \}$ such that each one provides a different balance between minimising the three operating characteristics. If there exist $\mathbf{c}, \mathbf{c}' \in \mathcal{C}^*$ such that $OC_i(\mathbf{c}') \leq OC_i(\mathbf{c})$ for all $i \in \{1, 2, 3\}$ and $OC_i(\mathbf{c}') < OC_i(\mathbf{c})$ for some $i \in \{1, 2, 3\}$, we say that $\mathbf{c}'$ dominates $\mathbf{c}$ and can discard the latter from $\mathcal{C}^*$. Because the search space $\mathcal{C}$ has only two dimensions, problem (\ref{eqn:opt}) can be solved simply by generating a random sample of costs and estimating the operating characteristics for each. Any costs which are dominated in this set can then be discarded, and the operating characteristics of the remaining costs illustrated graphically. The decision maker(s) can then view the range of available options, all providing different trade-offs amongst the three operating characteristics, and choose from amongst them. 
+
+To solve the problem in a timely manner we must be able to estimate operating characteristics quickly. Noting from equation (\ref{eqn:exp_loss}) that the expected loss of each decision depends only on the costs and the posterior probabilities $p_R, p_A$ and $p_G$, we first generate $N$ samples of these posterior probabilities and then use this same set of samples for every evaluation. This approach not only ensures that optimisation is computationally feasible, but also means that differences in operating characteristics are entirely due to differences in costs, as opposed to differences in the random posterior probability samples.
+
+\section{Illustration}\label{sec:illustration}
+
+\subsection{Model specification}
+
+The four substantive parameters of the REACH trial can be divided into two pairs: those relating to the amount of information which a confirmatory trial will gather, (mean cluster size and follow-up rate); and those relating to the effectiveness of the intervention, (adherence and efficacy). Although we assume that the parameters are \emph{probabilistically} independent, we do not assume they are \emph{preferentially} independent. Rather, we expect that a degree of trade-off between  the mean cluster size and the follow-up rate will be acceptable, with a decrease in one being compensated by an increase in the other. Likewise, low adherence could be compensated to some extent by improved efficacy, and vice versa. 
+
+While there may be trade-offs within these pairs of parameters, we do not expect trade-offs between them. If the effectiveness of the intervention is very low the confirmatory trial will be futile and should not be conducted, regardless of how much information it would be able to gather. Similarly, a confirmatory trial should not be conducted if it is highly unlikely to produce enough information for the research question to be adequately answered. We therefore consider the sub-spaces of $\Phi$ formed by these parameter pairs, partition these into hypotheses, and combine these together. Constructing hypotheses in these two-dimensional spaces is cognitively simpler than working in the original four dimensional space, and can be illustrated graphically.
+
+Formally, let $\Phi^i$ be the sub-space of mean cluster size and follow-up rate, and $\Phi^e$ be that of adherence and efficacy. Having specified hypotheses $\Phi^i_I, \Phi^e_I$ for $I = R,A,G$, we then have 
+\begin{align}\label{eqn:comb_hyp}
+\phi \in \begin{cases}
+               \Phi_R \text{ if }  \phi^i \in \Phi^i_R \text{ or } \phi^e \in \Phi^e_R \\
+               \Phi_G \text{ if }  \phi^i \in \Phi^i_G \text{ and } \phi^e \in \Phi^e_G \\
+               \Phi_A \text{ otherwise}. \\
+            \end{cases}
+\end{align}
+
+\subsubsection{Follow-up and cluster size}
+
+We assume cluster sizes are normally distributed, $m_{i} \sim N(\mu_{c}, \sigma^{2}),~ i = 1 \ldots k$. A normal-inverse-gamma prior 
+\begin{equation}
+\sigma^{2} \sim \Gamma^{-1} (\alpha_{0}, \beta_{0}), ~ \mu_{c} \sim N(\mu_{0}, \sigma^{2}/\nu_{0})
+\end{equation}
+is placed on the mean and variance to allow for prior uncertainty in both parameters. We set hyper-parameters to $\mu_{0} = 10, \nu_{0} = 6, \alpha_{0} = 20, \beta_{0} = 39$, resulting in the marginal prior distributions illustrated in Figure~\ref{fig:priors1}.
+
+\begin{figure}
+   \centering
+   \subfloat[][]{\includegraphics[width=.4\textwidth]{./Figures/prior2}}\quad
+   \subfloat[][]{\includegraphics[width=.4\textwidth]{./Figures/prior1}}\\
+   \subfloat[][]{\includegraphics[width=.4\textwidth]{./Figures/prior3}}\quad
+   \caption{Prior distributions for the mean and variance of cluster size and the probability of successful follow-up.}
+   \label{fig:priors1}
+\end{figure}
+
+We assume that follow up rates are constant across clusters. The number of participants followed-up, $f$ is assumed to follow a binomial distribution, $f \sim Bin(\sum_{i=1}^{k} m_{i}, p_{f})$. We take a Beta distribution as the prior for $p_{f}$, with hyper-parameters $\alpha_{0} = 22.4, \beta_{0} = 9.6$, illustrated in Figure~\ref{fig:priors1}.
+
+To partition the parameter space into hypotheses, we first consider the case where $p_{f} = 1$. Conditional on this, we reason that a mean cluster size of below 5 should lead to decision $r$, whereas a size of above 7 should lead to decision $g$. As the probability of successful follow-up decreases, we suppose that this can be compensated for by an increase in mean cluster size. We assume the nature of this trade-off is linear and decide that if $p_{f}$ were reduced to 0.8, we would want to have a mean cluster size of at least 8 to consider decisions $a$ or $g$.  We further decide that a follow-up rate of less than $p_{f} = 0.6$ would be critically low, regardless of the mean cluster size, and should always lead to decision $r$. Similarly, a follow-up rate of $0.6 \leq p_{f} < 0.66$ should lead to modification of the intervention or trial design. Together, these conditions lead to the following partitioning of the parameter space:
+\begin{equation}
+  (p_{f}, \mu_{c}) \in \begin{cases}
+               \Phi^i_R \text{ if } p_{f} < 0.6 \text{ or } 20-15p_{f} > \mu_{c} \\
+               \Phi^i_G \text{ if } p_{f} > 0.66 \text{ and } 22-15p_{f} < \mu_{c} \\
+               \Phi^i_A \text{ otherwise.}
+            \end{cases}
+\end{equation}
+
+The hypotheses are illustrated in Figure~\ref{fig:hyp_fu_cl}. A sample of size 1000 from the joint marginal design prior is also plotted in Figure~\ref{fig:hyp_fu_cl}, falling into hypotheses  $\Phi^i_R, \Phi^i_A$ and $\Phi^i_G$ in proportions 0.354, 0.517, 0.129 respectively.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{./Figures/hyp_fu_cl} %hyp_fu_cl}
+\caption{Marginal hypotheses over parameters for follow-u, $p_{f}$, and mean cluster size, $\mu_{c}$. Each point is a sample from the joint prior distribution.}
+\label{fig:hyp_fu_cl}
+\end{figure}
+
+\subsubsection{Adherence and efficacy}
+
+The number of  care homes which successfully adhere to the intervention delivery plan is assumed to be binomially distributed with probability $p_{a}$. We assume that adherence is absolute in the sense that all residents in a care home which does not successfully deliver the intervention will not receive any of the treatment effect. We place a Beta prior on $p_{a}$, with hyper-parameters $\alpha = 28.8$ and $\beta = 3.2$, as illustrated in Figure~\ref{fig:priors2}. 
+
+The continuous measure of physical activity is expected to be correlated within care homes. We model this using a random intercept, where the outcome $y_{i,j}$ of resident $i$ in care home $j$ is
+\begin{equation}
+y_{i,j} = \beta^{t}_{j} \times \beta^{a}_{j} \times \mu + u_{j} + e_{i}.
+\end{equation}
+Here, $\beta^{t}_{j}$ is a binary indicator of care home $j$ being randomised to the intervention arm, $\beta^{a}_{j}$ is a binary indicator of care home $j$ succesfully adhering to the intervention, $u_{j} \sim \mathcal{N}(0, \sigma_{B}^{2})$ is the random effect for care home $j$ and $e_{i} \sim \mathcal{N}(0, \sigma_{W}^{2})$ is the random effect for resident $i$. We parametrise the model using the intracluster correlation coefficient $\rho = \sigma_{B}^{2} / (\sigma_{B}^{2} + \sigma_{W}^{2})$, and place priors on $\mu, \rho$, and $\sigma_{W}^{2}$ in the manner suggested in~\cite{Spiegelhalter2001}. Specifically, we choose
+\begin{align}
+\mu & \sim N(0.2, 0.25^{2}) \\
+\sigma_{W}^{2} & \sim \Gamma^{-1}(50, 45) \\
+\rho & \sim Beta(1.6, 30.4)
+\end{align}
+These prior distributions are illustrated in Figure~\ref{fig:priors2}. 
+
+\begin{figure}
+   \centering
+   \subfloat[][]{\includegraphics[width=.4\textwidth]{./Figures/prior4}}\quad
+   \subfloat[][]{\includegraphics[width=.4\textwidth]{./Figures/prior5}}\\
+   \subfloat[][]{\includegraphics[width=.4\textwidth]{./Figures/prior6}}\quad
+   \subfloat[][]{\includegraphics[width=.4\textwidth]{./Figures/prior7}}\\
+   \caption{Prior distributions for the probability of adherence, and the mean, total variance, and ICC for efficacy.}
+   \label{fig:priors2}
+\end{figure}
+
+We consider that while there is potential for adherence to be improved after the pilot, there will be little opportunity to improve the efficacy of the intervention. Moreover, we believe an absolute improvement in delivery of up to around 0.1 is feasible. To define the hypotheses in this subspace we first set a minimal level of efficacy to be 0.1, and decide that we would be happy to make decision $g$ at this point if and only if adherence is perfect. As $p_{a}$ reduces from 1, a corresponding linear increase in efficacy is considered to maintain the overall effectiveness of the intervention. The rate of substitution for this trade-off is determined to be approximately 0.57 units of efficacy per unit of adherence probability. We consider an absolute lower limit in adherence of $p_{a} = 0.5$, below which we will always consider decision $r$ to be optimal. Taking these considerations together, the marginal hypotheses are defined as
+
+\begin{equation}
+  (p_{a}, \mu) \in \begin{cases}
+               \Phi^e_R \text{ if } p_{a} < 0.5 \text{ or } 0.96-0.57\mu > p_{a} \\
+               \Phi^e_G \text{ if } p_{a} > 0.6 \text{ and } 1.06-0.57\mu < p_{a} \\
+               \Phi^e_A \text{ otherwise.}
+            \end{cases}
+\end{equation}
+
+The hypotheses are illustrated in Figure~\ref{fig:hyp_ad_eff}. Again, a sample of size 1000 from the joint marginal prior distribution $p(p_{a}, \mu)$ is also plotted, falling into hypotheses $\Phi^e_R, \Phi^e_A$ and $\Phi^e_G$ in proportions 0.234, 0.470, 0.296 respectively.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{./Figures/hyp_ad_eff}
+\caption{Marginal hypotheses over parameters for adherence, $p_{a}$, and efficacy, $\mu$. Each point is a sample from the joint prior distribution.}
+\label{fig:hyp_ad_eff}
+\end{figure}
+
+The marginal hypotheses are then combined together using equation (\ref{eqn:comb_hyp}). Considering the same 1000 samples form the design prior plotted in Figures~\ref{fig:hyp_fu_cl} and~\ref{fig:hyp_ad_eff}, these now fall into the regions $\Phi_R, \Phi_A$ and $\Phi_G$ in proportions 0.507, 0.458, and 0.035 respectively. Note that the prior probabilities of these overall hypotheses are quite different to those of the marginal hypotheses. In particular, there is a considerable increase in the probability that a $r$ed decision will be optimal, and a considerable decrease that decision $g$ will be.
+
+\subsection{Evaluation and optimisation}
+
+\subsubsection{Weakly informative analysis}
+
+We applied the proposed method assuming that a weakly informative joint prior distribution will be used at the analysis stage\footnote{Full details  of the weakly informative prior are given in the appendix.}. We took the sample size of the trial to be $k = 12$ clusters, randomised equally between arms. For calculating operating characteristics we generated $N = 10^4$ samples from the joint distribution $p(\theta, x) = p(x | \theta)p_D(\theta)$. We analysed each sample using Stan (via rstan), generating 5000 samples in four chains and discarding the first 2500 samples in each to allow for burn-in, leading to $M = 10^4$ posterior samples in total.
+
+For each of the $N$ samples in the outer loop we extracted the estimated posterior probabilities $p_R$ and $p_G$, plotted in Figure~\ref{fig:post_probs}. We observe a large mass of points with very low values of $p_G$ and high values of $p_R$. These can be contrasted with the prior probability of each hypothesis, with respect to the design prior $p_D(\theta)$. The majority of simulated data sets lead to a movement from the prior point to a larger value of $p_R$, suggesting the analysis is being conservative.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{./Figures/post_probs}
+\caption{Posterior probabilities $(p_{R}, p_{G})$ of $N = 10^4$ simulated pilot data sets. The prior probability taken from the design prior $p_D$ is shown in red.}
+\label{fig:post_probs}
+\end{figure}
+
+We evaluated the operating characteristics for a sample of cost parameters $(c_1, c_2)$ as described in Section~\ref{sec:optimisation}. A total of 249 costs were evaluated, of which 193 were non-dominated. The operating characteristics of these non-dominated costs are shown in Figure~\ref{fig:p_front}. As may be expected, the three operating characteristics are highly correlated. In particular, changing the cost vector to give a lower value of $OC_3$ tends lead to a reduction in $OC_2$. When selecting a cost vector, the key decision appears to be trading off the probability of a futile trial, $OC_{1}$, against the probability of discarding a promising intervention, $OC_{3}$. There is a very limited opportunity to minimise the probability of unnecessary adjustments, $OC_{2}$, at the expense of these. For example, compare points $b$ and $c$ in Figure~\ref{fig:post_probs}, details of which are given in Table~\ref{tab:costs}. We see that point $c$ reduces $OC_2$ by 0.039 in comparison to point $b$, but only at the expense of increase in $OC_1$ and $OC_3$ of 0.147 and 0.055 respectively.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{./Figures/p_front}
+\caption{Operating characteristics of the example pilot trial for a range of cost vectors, when a weakly informative analysis prior is used.}
+\label{fig:p_front}
+\end{figure}
+
+\begin{table}
+\begin{tabular}{r l l l l}
+\toprule
+Label & $(c_{1}, c_{2}, c_{3})$ & $OC_{1}$ & $OC_{2}$ & $OC_{3}$ \\
+\midrule
+$a$ & (0.10, 0.07, 0.83) & 0.154 (0.004) & 0.192 (0.004) & 0.109 (0.003) \\
+$b$ & (0.44, 0.01, 0.55) & 0.043 (0.002) & 0.073 (0.003) & 0.296 (0.005) \\
+$c$ & (0.15, 0.76, 0.09) & 0.19 (0.004) & 0.034 (0.002) & 0.351 (0.005) \\
+\bottomrule
+\end{tabular}
+\caption{Estimated operating characteristics (with standard errors) of the example pilot trial for the three cost vectors highlighted in Figure~\ref{fig:p_front}, when a weakly informative analysis prior is used. Costs have been rounded to 2 decimal places; operating characteristics and their errors to 3.}
+\label{tab:costs}
+\end{table}
+
+We may expect to see a clear relationship between the value of cost parameters $c_1, c_2, c_3$ and the operating characteristics they relate to. We explore this in Figure~\ref{fig:cost_OCs} with scatter plots of each cost parameter against each operating characteristic. The results show that there is indeed a strong relationship between the cost assigned to the discarding a promising intervention, $c_3$, and the probability that this event will occur (see bottom right plot). Moreover, $c_3$ also seems to be the main determinant of operating characteristics $OC_1$ and $OC_2$. The implication is that once the cost $c_3 \in [0,1]$ has been chosen, the operating characteristics of the trial depend only weakly on the way in which the remaining cost of $1-c_3$ is allocated to $c_1$ and $c_2$. This appears to be due to the fact that, regardless of how errors are weighted, we are much more likely to make the error or discarding a promising intervention than the other types of error (see appendix for further detail). The cost we assign to this error is therefore more influential on the overall operating characteristics than the other costs.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{./Figures/cost_OCs}
+\caption{Relationships between the three cost parameters ($x$ axes) and resulting operating characteristics ($y$ axes).}
+\label{fig:cost_OCs}
+\end{figure}
+
+\subsubsection{Incorporating subjective priors}
+
+Rather than use weakly or non-informative priors when analysing the pilot data, we may instead want to make use of the (subjective) knowledge of parameter values what was elicited and described in the design prior $p_D(\theta)$. Anticipating criticisms of a fully subjective analysis, we can envisage two particular cases where this might be appropriate. Firstly, using the components of the design prior which describe the nuisance parameters $\psi$ while maintaining weakly informative priors on substantive parameters $\phi$. Secondly, when very little data on a specific substantive parameter is going to be collected in the pilot, using the informative design prior for that parameter could substantially improve operating characteristics.
+
+We replicated the above analysis for these two scenarios. For the second, we used informative priors for all nuisance parameters and for the probability of adherence, $p_a$. Recall that this is informed by a binary indicator for the 6 care homes in the intervention arm, and will therefore have very little pilot data bearing on it. For each case we used the same $N$ samples of parameters and pilot data which were used in the weakly informative case, re-doing the Bayesian analysis using the appropriate analysis prior and obtaining estimated posterior probabilities $p_R, p_A$ and $p_G$ as before. These were used in conjunction with the same set of cost vectors $\mathcal{C}$ to obtain corresponding operating characteristics.
+
+For brevity we will refer to the three cases as Weakly Informative (WI), Informative Nuisance (IN), and Informative Nuisance and Adherence (INA). Comparing the operating characteristics of cases WI and IN, we find very little difference. Although the posterior distributions $p(\theta | x)$ are qualitatively different when we examine an individual sample of pilot data, these differences do not translate to the posterior probabilities of hypotheses. Further details are provided in the appendix. When we contrast cases WI and INA, however, there is a clear distinction. As shown in Figure~\ref{fig:an_prior_comp}, for almost all choices of the cost vector, using the INA analysis prior will lead to larger values of $OC_1$ and $OC_2$, while reducing $OC_3$. Also shown in Figure~\ref{fig:an_prior_comp} is the expected loss for both cases. This is consistently lower for the INA analysis than for WI, as we would expect. 
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{./Figures/an_prior_comp}
+\caption{Operating characteristics and expected utilities for weakly (WI) and partially informative (INA) analyses. Each point represents a different cost vector.}
+\label{fig:an_prior_comp}
+\end{figure}
+
+\section{Discussion}\label{sec:discussion}
+
+%In fact, hypothesis testing is generally discouraged due to concerns that the analysis will be under-powered~\cite{Lancaster2004, Arain2010, Thabane2010}.
+
+%While there is a considerable literature on statistical approaches to pilot design when the aim of the pilot is to estimate a parameter that will be used in the sample size calculation of the main RCT, 
+
+When deciding if and how a definitive RCT of a complex intervention should be conducted, and basing this decision on an analysis of data from a small pilot trial, there is a risk we will inadvertently make a poor choice. A Bayesian analysis of pilot data followed by decision making based on a loss function can help ensure this risk is minimised. The expected results of such a pilot can be evaluated through simulation, producing operating characteristics which help us understand the potential for the pilot to lead to better decision making. These evaluations can in turn be used to find the loss function which leads to the most desirable operating characteristics, avoiding the need for any direct elicitation of decision maker preferences.
+
+Our proposal has been motivated by some salient characteristics of complex intervention pilot trials, and offers several potential benefits over standard pilot trial design and analysis techniques. The Bayesian approach to analysis means that complex multi-level models can be used to describe the data, even when the sample size is small. In contrast to the usual application of independent progression criteria for several parameters of interest, we provide a way for preferential relationships between parameters to be articulated and used when making decisions. Using a subjective prior distribution on unknown parameters at the design stage allows both our knowledge and our uncertainty to be fully expressed, meaning we can leverage external  information whilst also avoiding decisions which are highly sensitive to imprecise parameter estimates.
+
+The benefits brought by the Bayesian approach must be set against the challenges it brings, particularly in terms of computation time and implementation. In terms of the latter, we are required to specify a joint prior distribution over the parameters $\theta$ and a partitioning of the parameter space into the three hypotheses. The specification of the prior distribution may be a challenging and time-consuming task. Although some relevant data relating to similar contexts may be available, expert opinion will still be required to articulate the relevance of such data to the problem at hand. When no data are available, which is not unlikely given the early phase nature of pilot studies, expert opinion will be the only source of information. Although potentially challenging, many examples describing successful practical applications of elicitation for clinical trial design are available~\cite{Walley2015, Crisp2018, Dallow2018}, as are tools for its conduct such as the Sheffield Elicitation Framework (SHELF)~\cite{OHagan2006a}. Dividing the parameter space into three hypotheses may also prove challenging in practice, particularly when trade-offs between more than two parameters are to be elicited. There is a need for  methodological research investigating how methods for multi-attribute preference elicitiation, such as those set out in~\cite{Keeney1976}, can be applied in this context.
+
+%To minimise the burden, the statistical model should be constructed where possible to ensure the parameters can be considered independent~\cite{OHagan2012}, thus allowing the full joint distribution to be defined as the product of the individual priors.  
+
+The computational burden of the proposed method is significant, particularly when the model is too complex to allow a simple conjugate analysis to be used when sampling from the posterior distribution. We have used a nested Monte Carlo sampling scheme to estimating operating characteristics, as seen elsewhere~\cite{Wang2002, OHagan2005, Sutton2007}. One potential approach to improve efficiency is to use non-parametric regression to predict the expected losses of Equation (\ref{eqn:exp_loss}) based on some simulated data, thus bypassing the need to undertake a full MCMC analysis for each of the $N$ samples in the outer loop. This approach has been shown to be successful in the context of expected value of information calculations~\cite{Strong2014, Strong2015}.
+
+
+We have not considered how to choose the optimal sample size of a pilot trial in this paper. The standard approach is to refer to one of many rules-of-thumb, such as those described in~\cite{Lancaster2004, Julious2005, Teare2014}, although the shortcomings of such a one-size-fits-all approach have been highlighted~\cite{Whitehead2015}. While our framework could be used to assess the operating characteristics of several choices of sample size, the aforementioned computational burden of each assessment will make this difficult in practice. However, the small samples typically available for pilot trials suggests that such optimisation may not be crucial. When it is deemed necessary, methods developed for the design and analysis of expensive computer experiments may provide a way for it to be conducted in an efficient manner~\cite{Jones2001}.
+
+The standard approach to the analysis of pilot trials involves pre-specifying some progression criteria for the parameters of interest, and basing decisions (at least in part) on whether or not parameter estimates satisfy these criteria. This framework specifies a decision rule mapping the pilot data to decisions, as we have done in this paper, but does so implicitly and with no statistical analysis of the resulting properties. An alternative approach would be to employ formal hypothesis tests under a frequentist view. This would have the advantage of not requiring a joint prior distribution to be specified when designing the pilot. However, there has been limited reaseach into how preferential relations between parameters can be incorporated into such testing procedures, typically focussing on the case of two parameters~\cite{Conaway1996, Thall2008}. Moreover, testing multiple parameters can lead to multiplicity. In the case of union tests, type I error rate can be inflated; whilst in the case of intersection tests, type II error rate can be inflated~\cite{Senn2007}. Hybrid approaches which assume a freqentist analysis but take a Bayesian view to design by averaging type I~\cite{Chuang-Stein2007} or type II~\cite{Spiegelhalter1986} error rates have been proposed, and may go some way to addressing these issues.
+
+Our proposed design is related to the literature on assurance calculations for clinical trials, applying the idea of using unconditional event probabilities as operating characteristics to the pilot trial setting. In doing so we have defined assurances on multiple substantive parameters and with respect to the `traffic light' red/amber/green decision structure. The multi-objective optimisation framework we have used to inform trial design avoids setting arbitrary thresholds for operating characteristics as are commonly seen, and criticised~\cite{Bacchetti2010}, with type I and II error rates.
+
+We have defined our procedure in terms of a loss function, where the decision making following the pilot will minimise expected loss. However, the piecewise constant loss function we have proposed may not adequately represent the preferences of the decision maker. For example, we may object to the cost of discarding a promising intervention being independent of how effective the intervention is. The loss function is parametrised with respect to the operating characteristics it produces. While this is a common strategy when implementing decision-theoretic approaches to trial design~\cite{Lewis2007}, an alternative is to define the loss function through direct elicitation of the decision makers preferences under uncertainty~\cite{French2000}. This leads to a fully decision-theoretic approach to design and analysis~\cite{Lindley1997}. However, as previously noted by others~\cite{Joseph1997a, Bacchetti2008, Whitehead2008}, implementation of these approaches has been limited in practice and may be indicative of the feasibility of this approach.
+
+
+%Our discussion has also glossed over the difference between a loss function and a value function, where the former is defined strictly with respect to uncertainty and should encode an attitude to risk, while the former considers preferences under conditions of certainty and is not relevant to taking expectations~\cite{French2000}. 
+
+
+%Instead of basing decisions on the expected value of a loss function, a decision rule based directly on posterior probabilities could be used, as in e.g. \cite{Chen2011a, Cellamare2014, Ibrahim2014}. If employing the optimisation approach described in Section~\ref{sec:optimisation} this would make no difference, but if defining the decision rule directly it is possible that this could be easier to do in terms of posterior probabilities than in terms of the cost parameters of the loss function.
+
+% elaborate on the inadequacy of our loss function. Not just that its piecewise constant, but also think about value, utlity, and attitude to risk. Principle of maximising expected utility only applies if our utility function is defined in an uncertain context, i.e. utility reflects preferences between gambles. Perhaps not relevant when we are fitting the loss function to OCs?
+ 
+
+% extensions
+
+The proposed method could be extended in several ways. For example, more operating characteristics could be defined and used in design optimisation, more complicated trade-off relationships between multiple parameters could be addressed, or the hypotheses could be expanded to include nuisance parameters which would be used as part of the sample size calculation in the main RCT. A particularly interesting avenue for future research is to consider how  to model post-pilot trial actions in more detail. For example, while we allow for the possibility of making an `amber' decision, indicating that modifications to the intervention or trial design should be made, we do not model what that decision will actually look like. The type of amber adjustments needed are very different in different parts of the hypothesis space, and so we may attempt to improve recruitment rate (for example) when in fact it is adherence which requires improvement. Methodology for jointly modelling a pilot and subsequent main RCT in this manner could be informed by developments for designing phase II/III programs in the drug setting ~\cite{Stallard2012, Goette2015, Kirchner2015}.
+
+%This points to a significant challenge in pilot trials - the difficulty in modelling post-trial action, the richness of the decision space. Contrast with the drug setting where nothing much changes, and we just decide on a phase III sample size. Hence plenty papers looking at optimising the whole process, not just the phase II trial itself. An example of modelling the change is the internal pilot assessing recruitment in~\cite{Hampson2017}.
+
+%Different OCs
+
+%More expansive hypothesis space:
+%- including nuisance parameters
+%- more complex trade-offs e.g. > 2 parameters, elicitation challenges
+
+%Modelling:
+%- design of main RCT using pilot information (e.g. ICC or SD distribution)
+%- changes between pilot and main RCT
+%- health economics after main RCT
+
+%Some of the literature on pilot studies focusses not on progression decisions, but on generating information on one or more parameters that will be used for the main trial sample size calculations, e.g. \cite{Browne1995}. NIHR guidance on pilots says that ``the sample size should be adequate to estimate the critical parameters (e.g. recruitment rate) to the necessary degree of precision''~\cite{NIHR2017}. But \cite{Eldridge2015} shows that getting a point estimates of an ICC from a pilot and using it in the main trial sample size calculation is not a good approach due the substantial sampling variation of the estimate. Several papers have demonstrated the potential benefits of designing a trial using a prior on the ICC to properly encapsulate knowledge and uncertainty e.g. \cite{Spiegelhalter2001}, \cite{Turner2004}. Our approach will lead to distributions on all parameters, including the ICC, and so could feed in directly to these approaches. \cite{Eldridge2006} - ``A Bayesian approach to analysis in which the ICC is determined by a prior distribution as well as the trial data itself may alleviate the problem of uncertainty in predicting the ICC.''. More generally, many papers have shown how to use assurance calculations when designing the main RCT, and our approach would provide the distribution over parameters that these methods average over.
+
+%We have not specifically considered the issue of choice of sample size for the pilot study, instead assuming that this will primarily be chosen with respect to logistical and financial constraints. Nevertheless, the evaluation we propose could be applied to several possible choices of sample size, allowing the cost of increased sampling to be explicitly weighed against the resulting improvement in operating characteristics. Although the method is computationally expensive as we would need to run the full nested simulation routine for each new sample size, the inherently restricted size of a pilot will mean we don't have many options to consider so this may not be prohibitive. Even without a comparison of different sample sizes, our method allows us to understand the quality of the typical default sample size suggestions as given in~\cite{Lancaster2004, Browne1995}\footnote{As previously discussed, this rule seems to have been born out of a mis-reading of the Browne paper - he actually advised against using this rule-of-thumb.}, \cite{Julious2005} and~\cite{Teare2014}.
+
+%``the sample size should be adequate to estimate the critical parameters (e.g. recruitment rate) to the necessary degree of precision''~\cite{NIHR2017}
+%``our results show that most estimates of rates for pilots of cluster randomised trials are likely to be subject to considerable uncertainty so we suggest researchers need to be cautious about setting definitive thresholds that may then be missed by chance'' ~\cite{Eldridge2015}
+
+% Limitations
+
+%We do not model the larger evaluation process, i.e. we consider only the pilot. An alternative would be to jointly model the early and late phase trials. See a lot in phase II / III setting, e.g. \cite{Stallard2012} or \cite{Goette2015} or \cite{Kirchner2015}. But clearly more complex for us. Note that pilots are the topic in~\cite{Whitehead2015}, but their problem is much simpler - just estimating a standard deviation. More modelling could also encapsulate health economics, connecting with EVI literature~\cite{Strong2014, Strong2015}.
+
+
+\bibliographystyle{plain}
+\bibliography{U:/Literature/Databases/DTWrefs}
+
+\end{document}
