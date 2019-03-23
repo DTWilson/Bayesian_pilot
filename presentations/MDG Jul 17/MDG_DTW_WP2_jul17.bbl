@@ -1,0 +1,1347 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\sortlist[entry]{nyt/global/}
+  \entry{Ambrosius2010}{article}{}
+    \name{author}{2}{}{%
+      {{hash=AWT}{%
+         family={Ambrosius},
+         familyi={A\bibinitperiod},
+         given={Walter\bibnamedelima T.},
+         giveni={W\bibinitperiod\bibinitdelim T\bibinitperiod},
+      }}%
+      {{hash=MJD}{%
+         family={Mahnken},
+         familyi={M\bibinitperiod},
+         given={Jonathan\bibnamedelima D.},
+         giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{AWTMJD1}
+    \strng{fullhash}{AWTMJD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2010}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \verb{doi}
+    \verb 10.1002/sim.3873
+    \endverb
+    \field{pages}{n/a\bibrangedash n/a}
+    \field{title}{Power for studies with random group sizes}
+    \verb{url}
+    \verb https://doi.org/10.1002%2Fsim.3873
+    \endverb
+    \field{journaltitle}{Statistics in Medicine}
+    \field{year}{2010}
+  \endentry
+
+  \entry{Avery2017}{article}{}
+    \name{author}{8}{}{%
+      {{hash=AKNL}{%
+         family={Avery},
+         familyi={A\bibinitperiod},
+         given={Kerry N\bibnamedelima L},
+         giveni={K\bibinitperiod\bibinitdelim N\bibinitperiod\bibinitdelim
+  L\bibinitperiod},
+      }}%
+      {{hash=WPR}{%
+         family={Williamson},
+         familyi={W\bibinitperiod},
+         given={Paula\bibnamedelima R},
+         giveni={P\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=GC}{%
+         family={Gamble},
+         familyi={G\bibinitperiod},
+         given={Carrol},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=FEO}{%
+         family={Francischetto},
+         familyi={F\bibinitperiod},
+         given={Elaine\bibnamedelima O{\textquotesingle}Connell},
+         giveni={E\bibinitperiod\bibinitdelim O\bibinitperiod},
+      }}%
+      {{hash=MC}{%
+         family={Metcalfe},
+         familyi={M\bibinitperiod},
+         given={Chris},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=DP}{%
+         family={Davidson},
+         familyi={D\bibinitperiod},
+         given={Peter},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=WH}{%
+         family={Williams},
+         familyi={W\bibinitperiod},
+         given={Hywel},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=BJM}{%
+         family={Blazeby},
+         familyi={B\bibinitperiod},
+         given={Jane\bibnamedelima M},
+         giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {{BMJ}}%
+    }
+    \strng{namehash}{AKNL+1}
+    \strng{fullhash}{AKNLWPRGCFEOMCDPWHBJM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2017}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \verb{doi}
+    \verb 10.1136/bmjopen-2016-013537
+    \endverb
+    \field{number}{2}
+    \field{pages}{e013537}
+    \field{title}{Informing efficient randomised controlled trials: exploration
+  of challenges in developing progression criteria for internal pilot studies}
+    \verb{url}
+    \verb https://doi.org/10.1136%2Fbmjopen-2016-013537
+    \endverb
+    \field{volume}{7}
+    \field{journaltitle}{{BMJ} Open}
+    \field{year}{2017}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Bacchetti2008}{article}{}
+    \name{author}{3}{}{%
+      {{hash=BP}{%
+         family={Bacchetti},
+         familyi={B\bibinitperiod},
+         given={Peter},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=MCE}{%
+         family={McCulloch},
+         familyi={M\bibinitperiod},
+         given={Charles\bibnamedelima E.},
+         giveni={C\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=SMR}{%
+         family={Segal},
+         familyi={S\bibinitperiod},
+         given={Mark\bibnamedelima R.},
+         giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{BPMCESMR1}
+    \strng{fullhash}{BPMCESMR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2008}
+    \field{sortinit}{B}
+    \field{sortinithash}{B}
+    \verb{doi}
+    \verb 10.1111/j.1541-0420.2008.01004_1.x
+    \endverb
+    \field{number}{2}
+    \field{pages}{577\bibrangedash 585}
+    \field{title}{Simple, Defensible Sample Sizes Based on Cost Efficiency}
+    \verb{url}
+    \verb http://dx.doi.org/10.1111/j.1541-0420.2008.01004_1.x
+    \endverb
+    \field{volume}{64}
+    \field{journaltitle}{Biometrics}
+    \field{year}{2008}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Chen2011a}{article}{}
+    \name{author}{5}{}{%
+      {{hash=CMH}{%
+         family={Chen},
+         familyi={C\bibinitperiod},
+         given={Ming-Hui},
+         giveni={M\bibinitperiod-H\bibinitperiod},
+      }}%
+      {{hash=IJG}{%
+         family={Ibrahim},
+         familyi={I\bibinitperiod},
+         given={Joseph\bibnamedelima G.},
+         giveni={J\bibinitperiod\bibinitdelim G\bibinitperiod},
+      }}%
+      {{hash=LP}{%
+         family={Lam},
+         familyi={L\bibinitperiod},
+         given={Peter},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=YA}{%
+         family={Yu},
+         familyi={Y\bibinitperiod},
+         given={Alan},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=ZY}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Yuanye},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{CMH+1}
+    \strng{fullhash}{CMHIJGLPYAZY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2011}
+    \field{sortinit}{C}
+    \field{sortinithash}{C}
+    \verb{doi}
+    \verb 10.1111/j.1541-0420.2011.01561.x
+    \endverb
+    \field{number}{3}
+    \field{pages}{1163\bibrangedash 1170}
+    \field{title}{Bayesian Design of Noninferiority Trials for Medical Devices
+  Using Historical Data}
+    \verb{url}
+    \verb https://doi.org/10.1111%2Fj.1541-0420.2011.01561.x
+    \endverb
+    \field{volume}{67}
+    \field{journaltitle}{Biometrics}
+    \field{year}{2011}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{DeGroot1970}{book}{}
+    \name{author}{1}{}{%
+      {{hash=DMH}{%
+         family={DeGroot},
+         familyi={D\bibinitperiod},
+         given={Morris\bibnamedelima H.},
+         giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DMH1}
+    \strng{fullhash}{DMH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{1970}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \field{title}{Optimal Statistical Decisions}
+    \field{year}{1970}
+  \endentry
+
+  \entry{Fay2006}{article}{}
+    \name{author}{3}{}{%
+      {{hash=FMP}{%
+         family={Fay},
+         familyi={F\bibinitperiod},
+         given={Michael\bibnamedelima P.},
+         giveni={M\bibinitperiod\bibinitdelim P\bibinitperiod},
+      }}%
+      {{hash=HME}{%
+         family={Halloran},
+         familyi={H\bibinitperiod},
+         given={M.\bibnamedelima Elizabeth},
+         giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=FDA}{%
+         family={Follmann},
+         familyi={F\bibinitperiod},
+         given={Dean\bibnamedelima A.},
+         giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{FMPHMEFDA1}
+    \strng{fullhash}{FMPHMEFDA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2006}
+    \field{sortinit}{F}
+    \field{sortinithash}{F}
+    \verb{doi}
+    \verb 10.1111/j.1541-0420.2006.00703.x
+    \endverb
+    \field{number}{2}
+    \field{pages}{465\bibrangedash 474}
+    \field{title}{Accounting for Variability in Sample Size Estimation with
+  Applications to Nonadherence and Estimation of Variance and Effect Size}
+    \verb{url}
+    \verb https://doi.org/10.1111%2Fj.1541-0420.2006.00703.x
+    \endverb
+    \field{volume}{63}
+    \field{journaltitle}{Biometrics}
+    \field{year}{2006}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Goette2015}{article}{}
+    \name{author}{4}{}{%
+      {{hash=GH}{%
+         family={G�tte},
+         familyi={G\bibinitperiod},
+         given={Heiko},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=SA}{%
+         family={Sch�ler},
+         familyi={S\bibinitperiod},
+         given={Armin},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=KM}{%
+         family={Kirchner},
+         familyi={K\bibinitperiod},
+         given={Marietta},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=KM}{%
+         family={Kieser},
+         familyi={K\bibinitperiod},
+         given={Meinhard},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{GH+1}
+    \strng{fullhash}{GHSAKMKM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2015}
+    \field{sortinit}{G}
+    \field{sortinithash}{G}
+    \verb{doi}
+    \verb 10.1002/pst.1717
+    \endverb
+    \field{number}{6}
+    \field{pages}{515\bibrangedash 524}
+    \field{title}{Sample size planning for phase {II} trials based on success
+  probabilities for phase {III}}
+    \verb{url}
+    \verb https://doi.org/10.1002%2Fpst.1717
+    \endverb
+    \field{volume}{14}
+    \field{journaltitle}{Pharmaceutical Statistics}
+    \field{year}{2015}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Hampson2017}{article}{}
+    \name{author}{4}{}{%
+      {{hash=HLV}{%
+         family={Hampson},
+         familyi={H\bibinitperiod},
+         given={Lisa\bibnamedelima V},
+         giveni={L\bibinitperiod\bibinitdelim V\bibinitperiod},
+      }}%
+      {{hash=WPR}{%
+         family={Williamson},
+         familyi={W\bibinitperiod},
+         given={Paula\bibnamedelima R},
+         giveni={P\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=WMJ}{%
+         family={Wilby},
+         familyi={W\bibinitperiod},
+         given={Martin\bibnamedelima J},
+         giveni={M\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=JT}{%
+         family={Jaki},
+         familyi={J\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{HLV+1}
+    \strng{fullhash}{HLVWPRWMJJT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2017}
+    \field{sortinit}{H}
+    \field{sortinithash}{H}
+    \field{abstract}{%
+    Just over half of publicly funded trials recruit their target sample size
+  within the planned study duration. When recruitment targets are missed, the
+  funder of a trial is faced with the decision of either committing further
+  resources to the study or risk that a worthwhile treatment effect may be
+  missed by an underpowered final analysis. To avoid this challenging
+  situation, when there is insufficient prior evidence to support predicted
+  recruitment rates, funders now require feasibility assessments to be
+  performed in the early stages of trials. Progression criteria are usually
+  specified and agreed with the funder ahead of time. To date, however, the
+  progression rules used are typically ad hoc. In addition, rules routinely
+  permit adaptations to recruitment strategies but do not stipulate criteria
+  for evaluating their effectiveness. In this paper, we develop a framework for
+  planning and designing internal pilot studies which permit a trial to be
+  stopped early if recruitment is disappointing or to continue to full
+  recruitment if enrolment during the feasibility phase is adequate. This
+  framework enables a progression rule to be pre-specified and agreed upon
+  prior to starting a trial. The novel two-stage designs stipulate that if
+  neither of these situations arises, adaptations to recruitment should be made
+  and subsequently evaluated to establish whether they have been successful. We
+  derive optimal progression rules for internal pilot studies which minimise
+  the expected trial overrun and maintain a high probability of completing the
+  study when the recruitment rate is adequate. The advantages of this procedure
+  are illustrated using a real trial example.%
+    }
+    \verb{doi}
+    \verb 10.1177/0962280217708906
+    \endverb
+    \verb{eprint}
+    \verb http://dx.doi.org/10.1177/0962280217708906
+    \endverb
+    \field{note}{PMID: 28589752}
+    \field{number}{0}
+    \field{pages}{0962280217708906}
+    \field{title}{A framework for prospectively defining progression rules for
+  internal pilot studies monitoring recruitment}
+    \verb{url}
+    \verb http://dx.doi.org/10.1177/0962280217708906
+    \endverb
+    \field{volume}{0}
+    \field{journaltitle}{Statistical Methods in Medical Research}
+    \field{year}{2017}
+  \endentry
+
+  \entry{Ibrahim2014}{article}{}
+    \name{author}{5}{}{%
+      {{hash=IJG}{%
+         family={Ibrahim},
+         familyi={I\bibinitperiod},
+         given={Joseph\bibnamedelima G.},
+         giveni={J\bibinitperiod\bibinitdelim G\bibinitperiod},
+      }}%
+      {{hash=CMH}{%
+         family={Chen},
+         familyi={C\bibinitperiod},
+         given={Ming-Hui},
+         giveni={M\bibinitperiod-H\bibinitperiod},
+      }}%
+      {{hash=LM}{%
+         family={Lakshminarayanan},
+         familyi={L\bibinitperiod},
+         given={Mani},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=LGF}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Guanghan\bibnamedelima F.},
+         giveni={G\bibinitperiod\bibinitdelim F\bibinitperiod},
+      }}%
+      {{hash=HJF}{%
+         family={Heyse},
+         familyi={H\bibinitperiod},
+         given={Joseph\bibnamedelima F.},
+         giveni={J\bibinitperiod\bibinitdelim F\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{IJG+1}
+    \strng{fullhash}{IJGCMHLMLGFHJF1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2014}
+    \field{sortinit}{I}
+    \field{sortinithash}{I}
+    \verb{doi}
+    \verb 10.1002/sim.6339
+    \endverb
+    \field{number}{2}
+    \field{pages}{249\bibrangedash 264}
+    \field{title}{Bayesian probability of success for clinical trials using
+  historical data}
+    \verb{url}
+    \verb https://doi.org/10.1002%2Fsim.6339
+    \endverb
+    \field{volume}{34}
+    \field{journaltitle}{Statistics in Medicine}
+    \field{year}{2014}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Jiang2011}{article}{}
+    \name{author}{1}{}{%
+      {{hash=JK}{%
+         family={Jiang},
+         familyi={J\bibinitperiod},
+         given={Kaihong},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Informa {UK} Limited}%
+    }
+    \strng{namehash}{JK1}
+    \strng{fullhash}{JK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2011}
+    \field{sortinit}{J}
+    \field{sortinithash}{J}
+    \verb{doi}
+    \verb 10.1198/sbr.2011.10068
+    \endverb
+    \field{number}{3}
+    \field{pages}{463\bibrangedash 475}
+    \field{title}{Optimal Sample Sizes and Go/No-Go Decisions for Phase
+  {II}/{III} Development Programs Based on Probability of Success}
+    \verb{url}
+    \verb https://doi.org/10.1198%2Fsbr.2011.10068
+    \endverb
+    \field{volume}{3}
+    \field{journaltitle}{Statistics in Biopharmaceutical Research}
+    \field{year}{2011}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Julious2006}{article}{}
+    \name{author}{2}{}{%
+      {{hash=JSA}{%
+         family={Julious},
+         familyi={J\bibinitperiod},
+         given={Steven\bibnamedelima A.},
+         giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=ORJ}{%
+         family={Owen},
+         familyi={O\bibinitperiod},
+         given={Roger\bibnamedelima J.},
+         giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{JSAORJ1}
+    \strng{fullhash}{JSAORJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2006}
+    \field{sortinit}{J}
+    \field{sortinithash}{J}
+    \verb{doi}
+    \verb 10.1002/pst.197
+    \endverb
+    \field{number}{1}
+    \field{pages}{29\bibrangedash 37}
+    \field{title}{Sample size calculations for clinical studies allowing for
+  uncertainty about the variance}
+    \verb{url}
+    \verb http://dx.doi.org/10.1002/pst.197
+    \endverb
+    \field{volume}{5}
+    \field{journaltitle}{Pharmaceutical Statistics}
+    \field{year}{2006}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Kirby2012}{article}{}
+    \name{author}{4}{}{%
+      {{hash=KS}{%
+         family={Kirby},
+         familyi={K\bibinitperiod},
+         given={S},
+         giveni={S},
+      }}%
+      {{hash=BJ}{%
+         family={Burke},
+         familyi={B\bibinitperiod},
+         given={J},
+         giveni={J},
+      }}%
+      {{hash=CSC}{%
+         family={Chuang-Stein},
+         familyi={C\bibinitperiod-S\bibinitperiod},
+         given={C},
+         giveni={C},
+      }}%
+      {{hash=SC}{%
+         family={Sin},
+         familyi={S\bibinitperiod},
+         given={C},
+         giveni={C},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley Online Library}%
+    }
+    \strng{namehash}{KS+1}
+    \strng{fullhash}{KSBJCSCSC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2012}
+    \field{sortinit}{K}
+    \field{sortinithash}{K}
+    \verb{doi}
+    \verb 10.1002/pst.1521
+    \endverb
+    \field{number}{5}
+    \field{pages}{373\bibrangedash 385}
+    \field{title}{Discounting phase 2 results when planning phase 3 clinical
+  trials}
+    \field{volume}{11}
+    \field{journaltitle}{Pharmaceutical statistics}
+    \field{year}{2012}
+  \endentry
+
+  \entry{Landau2013}{article}{}
+    \name{author}{2}{}{%
+      {{hash=LS}{%
+         family={Landau},
+         familyi={L\bibinitperiod},
+         given={Sabine},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=SD}{%
+         family={Stahl},
+         familyi={S\bibinitperiod},
+         given={Daniel},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{LSSD1}
+    \strng{fullhash}{LSSD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2013}
+    \field{sortinit}{L}
+    \field{sortinithash}{L}
+    \field{abstract}{%
+    This paper shows how Monte Carlo simulation can be used for sample size,
+  power or precision calculations when planning medical research studies.
+  Standard study designs can lead to the use of analysis methods for which
+  power formulae do not exist. This may be because complex modelling techniques
+  with optimal statistical properties are used but power formulae have not yet
+  been derived or because analysis models are employed that divert from the
+  population model due to lack of availability of more appropriate analysis
+  tools. Our presentation concentrates on the conceptual steps involved in
+  carrying out power or precision calculations by simulation. We demonstrate
+  these steps in three examples concerned with (i) drop out in longitudinal
+  studies, (ii) measurement error in observational studies and (iii) causal
+  effect estimation in randomised controlled trials with non-compliance. We
+  conclude that the Monte Carlo simulation approach is an important general
+  tool in the methodological arsenal for assessing power and precision.%
+    }
+    \verb{doi}
+    \verb 10.1177/0962280212439578
+    \endverb
+    \verb{eprint}
+    \verb http://smm.sagepub.com/content/22/3/324.full.pdf+html
+    \endverb
+    \field{number}{3}
+    \field{pages}{324\bibrangedash 345}
+    \field{title}{Sample size and power calculations for medical studies by
+  simulation when closed form expressions are not available}
+    \verb{url}
+    \verb http://smm.sagepub.com/content/22/3/324.abstract
+    \endverb
+    \field{volume}{22}
+    \field{journaltitle}{Statistical Methods in Medical Research}
+    \field{year}{2013}
+  \endentry
+
+  \entry{Lindley1997}{article}{}
+    \name{author}{1}{}{%
+      {{hash=LDV}{%
+         family={Lindley},
+         familyi={L\bibinitperiod},
+         given={Dennis\bibnamedelima V.},
+         giveni={D\bibinitperiod\bibinitdelim V\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Blackwell Publishers Ltd}%
+    }
+    \keyw{Binomial sampling, Coherence, Coverage probabilities, Highest
+  posterior density intervals, Information, Log-odds, Maximization of expected
+  utility, Sample size determination}
+    \strng{namehash}{LDV1}
+    \strng{fullhash}{LDV1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{1997}
+    \field{sortinit}{L}
+    \field{sortinithash}{L}
+    \verb{doi}
+    \verb 10.1111/1467-9884.00068
+    \endverb
+    \field{issn}{1467-9884}
+    \field{number}{2}
+    \field{pages}{129\bibrangedash 138}
+    \field{title}{The choice of sample size}
+    \verb{url}
+    \verb http://dx.doi.org/10.1111/1467-9884.00068
+    \endverb
+    \field{volume}{46}
+    \field{journaltitle}{Journal of the Royal Statistical Society: Series D
+  (The Statistician)}
+    \field{year}{1997}
+  \endentry
+
+  \entry{OHagan2005}{article}{}
+    \name{author}{3}{}{%
+      {{hash=OA}{%
+         family={O'Hagan},
+         familyi={O\bibinitperiod},
+         given={Anthony},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=SJW}{%
+         family={Stevens},
+         familyi={S\bibinitperiod},
+         given={John\bibnamedelima W.},
+         giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod},
+      }}%
+      {{hash=CMJ}{%
+         family={Campbell},
+         familyi={C\bibinitperiod},
+         given={Michael\bibnamedelima J.},
+         giveni={M\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {John Wiley \& Sons, Ltd.}%
+    }
+    \keyw{assurance, Bayesian analysis, Bayesian clinical trial simulation,
+  binary data, design of experiments, expected power, power, preposterior
+  analysis, prior distribution, sample size}
+    \strng{namehash}{OASJWCMJ1}
+    \strng{fullhash}{OASJWCMJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2005}
+    \field{sortinit}{O}
+    \field{sortinithash}{O}
+    \field{abstract}{%
+    Conventional clinical trial design involves considerations of power, and
+  sample size is typically chosen to achieve a desired power conditional on a
+  specified treatment effect. In practice, there is considerable uncertainty
+  about what the true underlying treatment effect may be, and so power does not
+  give a good indication of the probability that the trial will demonstrate a
+  positive outcome.Assurance is the unconditional probability that the trial
+  will yield a ‘positive outcome’. A positive outcome usually means a
+  statistically significant result, according to some standard frequentist
+  significance test. The assurance is then the prior expectation of the power,
+  averaged over the prior distribution for the unknown true treatment effect.We
+  argue that assurance is an important measure of the practical utility of a
+  proposed trial, and indeed that it will often be appropriate to choose the
+  size of the sample (and perhaps other aspects of the design) to achieve a
+  desired assurance, rather than to achieve a desired power conditional on an
+  assumed treatment effect. We extend the theory of assurance to two-sided
+  testing and equivalence trials. We also show that assurance is
+  straightforward to compute in some simple problems of normal, binary and
+  gamma distributed data, and that the method is not restricted to simple
+  conjugate prior distributions for parameters. Several illustrations are
+  given. Copyright © 2005 John Wiley & Sons, Ltd.%
+    }
+    \verb{doi}
+    \verb 10.1002/pst.175
+    \endverb
+    \field{issn}{1539-1612}
+    \field{number}{3}
+    \field{pages}{187\bibrangedash 201}
+    \field{title}{Assurance in clinical trial design}
+    \verb{url}
+    \verb http://dx.doi.org/10.1002/pst.175
+    \endverb
+    \field{volume}{4}
+    \field{journaltitle}{Pharmaceutical Statistics}
+    \field{year}{2005}
+  \endentry
+
+  \entry{Patel2013}{article}{}
+    \name{author}{4}{}{%
+      {{hash=PNR}{%
+         family={Patel},
+         familyi={P\bibinitperiod},
+         given={Nitin\bibnamedelima R},
+         giveni={N\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=AS}{%
+         family={Ankolekar},
+         familyi={A\bibinitperiod},
+         given={Suresh},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=AZ}{%
+         family={Antonijevic},
+         familyi={A\bibinitperiod},
+         given={Zoran},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=RN}{%
+         family={Rajicic},
+         familyi={R\bibinitperiod},
+         given={Natasa},
+         giveni={N\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley Online Library}%
+    }
+    \strng{namehash}{PNR+1}
+    \strng{fullhash}{PNRASAZRN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2013}
+    \field{sortinit}{P}
+    \field{sortinithash}{P}
+    \verb{doi}
+    \verb 10.1002/sim.5731
+    \endverb
+    \field{number}{10}
+    \field{pages}{1763\bibrangedash 1777}
+    \field{title}{A mathematical model for maximizing the value of phase 3 drug
+  development portfolios incorporating budget constraints and risk}
+    \field{volume}{32}
+    \field{journaltitle}{Statistics in medicine}
+    \field{year}{2013}
+  \endentry
+
+  \entry{Ren2013}{article}{}
+    \name{author}{2}{}{%
+      {{hash=RS}{%
+         family={Ren},
+         familyi={R\bibinitperiod},
+         given={Shijie},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=OJE}{%
+         family={Oakley},
+         familyi={O\bibinitperiod},
+         given={Jeremy\bibnamedelima E.},
+         giveni={J\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{RSOJE1}
+    \strng{fullhash}{RSOJE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2013}
+    \field{sortinit}{R}
+    \field{sortinithash}{R}
+    \verb{doi}
+    \verb 10.1002/sim.5916
+    \endverb
+    \field{number}{1}
+    \field{pages}{31\bibrangedash 45}
+    \field{title}{Assurance calculations for planning clinical trials with
+  time-to-event outcomes}
+    \verb{url}
+    \verb https://doi.org/10.1002%2Fsim.5916
+    \endverb
+    \field{volume}{33}
+    \field{journaltitle}{Statistics in Medicine}
+    \field{year}{2013}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Spiegelhalter2004}{book}{}
+    \name{author}{3}{}{%
+      {{hash=SDJ}{%
+         family={Spiegelhalter},
+         familyi={S\bibinitperiod},
+         given={David\bibnamedelima J.},
+         giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=AKR}{%
+         family={Abrams},
+         familyi={A\bibinitperiod},
+         given={Keith\bibnamedelima R.},
+         giveni={K\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=MJP}{%
+         family={Myles},
+         familyi={M\bibinitperiod},
+         given={Jonathan\bibnamedelima P.},
+         giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley}%
+    }
+    \strng{namehash}{SDJAKRMJP1}
+    \strng{fullhash}{SDJAKRMJP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2004}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{title}{Bayesian Approaches to Clinical Trials and Health-Care
+  Evaluation}
+    \field{year}{2004}
+  \endentry
+
+  \entry{Stallard2012}{article}{}
+    \name{author}{1}{}{%
+      {{hash=SN}{%
+         family={Stallard},
+         familyi={S\bibinitperiod},
+         given={Nigel},
+         giveni={N\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {John Wiley \& Sons, Ltd}%
+    }
+    \keyw{adaptive programmes of clinical development, Bayesian decision
+  theory, clinical trial design}
+    \strng{namehash}{SN1}
+    \strng{fullhash}{SN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2012}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \verb{doi}
+    \verb 10.1002/sim.4357
+    \endverb
+    \field{issn}{1097-0258}
+    \field{number}{11-12}
+    \field{pages}{1031\bibrangedash 1042}
+    \field{title}{Optimal sample sizes for phase {II} clinical trials and pilot
+  studies}
+    \verb{url}
+    \verb http://dx.doi.org/10.1002/sim.4357
+    \endverb
+    \field{volume}{31}
+    \field{journaltitle}{Statistics in Medicine}
+    \field{year}{2012}
+  \endentry
+
+  \entry{Strong2015}{article}{}
+    \name{author}{4}{}{%
+      {{hash=SM}{%
+         family={Strong},
+         familyi={S\bibinitperiod},
+         given={Mark},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=OJE}{%
+         family={Oakley},
+         familyi={O\bibinitperiod},
+         given={Jeremy\bibnamedelima E},
+         giveni={J\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=BA}{%
+         family={Brennan},
+         familyi={B\bibinitperiod},
+         given={Alan},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=BP}{%
+         family={Breeze},
+         familyi={B\bibinitperiod},
+         given={Penny},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {SAGE Publications Sage CA: Los Angeles, CA}%
+    }
+    \strng{namehash}{SM+1}
+    \strng{fullhash}{SMOJEBABP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2015}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{number}{5}
+    \field{pages}{570\bibrangedash 583}
+    \field{title}{Estimating the expected value of sample information using the
+  probabilistic sensitivity analysis sample: a fast, nonparametric
+  regression-based method}
+    \field{volume}{35}
+    \field{journaltitle}{Medical Decision Making}
+    \field{year}{2015}
+  \endentry
+
+  \entry{Sutton2007}{article}{}
+    \name{author}{6}{}{%
+      {{hash=SAJ}{%
+         family={Sutton},
+         familyi={S\bibinitperiod},
+         given={Alexander\bibnamedelima J.},
+         giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=CNJ}{%
+         family={Cooper},
+         familyi={C\bibinitperiod},
+         given={Nicola\bibnamedelima J.},
+         giveni={N\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=JDR}{%
+         family={Jones},
+         familyi={J\bibinitperiod},
+         given={David\bibnamedelima R.},
+         giveni={D\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=LPC}{%
+         family={Lambert},
+         familyi={L\bibinitperiod},
+         given={Paul\bibnamedelima C.},
+         giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod},
+      }}%
+      {{hash=TJR}{%
+         family={Thompson},
+         familyi={T\bibinitperiod},
+         given={John\bibnamedelima R.},
+         giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=AKR}{%
+         family={Abrams},
+         familyi={A\bibinitperiod},
+         given={Keith\bibnamedelima R.},
+         giveni={K\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{SAJ+1}
+    \strng{fullhash}{SAJCNJJDRLPCTJRAKR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2007}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \verb{doi}
+    \verb 10.1002/sim.2704
+    \endverb
+    \field{number}{12}
+    \field{pages}{2479\bibrangedash 2500}
+    \field{title}{Evidence-based sample size calculations based upon updated
+  meta-analysis}
+    \verb{url}
+    \verb https://doi.org/10.1002%2Fsim.2704
+    \endverb
+    \field{volume}{26}
+    \field{journaltitle}{Statistics in Medicine}
+    \field{year}{2007}
+  \endentry
+
+  \entry{Turner2004}{article}{}
+    \name{author}{3}{}{%
+      {{hash=TRM}{%
+         family={Turner},
+         familyi={T\bibinitperiod},
+         given={Rebecca\bibnamedelima M.},
+         giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=TPA}{%
+         family={Toby\bibnamedelima Prevost},
+         familyi={T\bibinitperiod\bibinitdelim P\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=TSG}{%
+         family={Thompson},
+         familyi={T\bibinitperiod},
+         given={Simon\bibnamedelima G.},
+         giveni={S\bibinitperiod\bibinitdelim G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {John Wiley \& Sons, Ltd.}%
+    }
+    \keyw{intracluster correlation coefficient, cluster randomized trials,
+  sample size, power, Bayesian methods, study design}
+    \strng{namehash}{TRMTPATSG1}
+    \strng{fullhash}{TRMTPATSG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2004}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{abstract}{%
+    The sample size required for a cluster randomized trial depends on the
+  magnitude of the intracluster correlation coefficient (ICC). The usual sample
+  size calculation makes no allowance for the fact that the ICC is not known
+  precisely in advance. We develop methods which allow for the uncertainty in a
+  previously observed ICC, using a variety of distributional assumptions.
+  Distributions for the power are derived, reflecting this uncertainty.
+  Further, the observed ICC in a future study will not equal its true value,
+  and we consider the impact of this on power. We implement calculations within
+  a Bayesian simulation approach, and provide one simplification that can be
+  performed using simple simulation within spreadsheet software. In our
+  examples, recognizing the uncertainty in a previous ICC estimate decreases
+  expected power, especially when the power calculated naively from the ICC
+  estimate is high. To protect against the possibility of low power, sample
+  sizes may need to be very substantially increased. Recognizing the
+  variability in the future observed ICC has little effect if prior uncertainty
+  has already been taken into account. We show how our method can be extended
+  to the case in which multiple prior ICC estimates are available. The methods
+  presented in this paper can be used by applied researchers to protect against
+  loss of power, or to choose a design which reduces the impact of uncertainty
+  in the ICC. Copyright © 2004 John Wiley & Sons, Ltd.%
+    }
+    \verb{doi}
+    \verb 10.1002/sim.1721
+    \endverb
+    \field{issn}{1097-0258}
+    \field{number}{8}
+    \field{pages}{1195\bibrangedash 1214}
+    \field{title}{Allowing for imprecision of the intracluster correlation
+  coefficient in the design of cluster randomized trials}
+    \verb{url}
+    \verb http://dx.doi.org/10.1002/sim.1721
+    \endverb
+    \field{volume}{23}
+    \field{journaltitle}{Statistics in Medicine}
+    \field{year}{2004}
+  \endentry
+
+  \entry{Walley2015}{article}{}
+    \name{author}{4}{}{%
+      {{hash=WRJ}{%
+         family={Walley},
+         familyi={W\bibinitperiod},
+         given={Rosalind\bibnamedelima J.},
+         giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=SCL}{%
+         family={Smith},
+         familyi={S\bibinitperiod},
+         given={Claire\bibnamedelima L.},
+         giveni={C\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+      {{hash=GJD}{%
+         family={Gale},
+         familyi={G\bibinitperiod},
+         given={Jeremy\bibnamedelima D.},
+         giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+      {{hash=WP}{%
+         family={Woodward},
+         familyi={W\bibinitperiod},
+         given={Phil},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{WRJ+1}
+    \strng{fullhash}{WRJSCLGJDWP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2015}
+    \field{sortinit}{W}
+    \field{sortinithash}{W}
+    \verb{doi}
+    \verb 10.1002/pst.1675
+    \endverb
+    \field{number}{3}
+    \field{pages}{205\bibrangedash 215}
+    \field{title}{Advantages of a wholly Bayesian approach to assessing
+  efficacy in early drug development: a case study}
+    \verb{url}
+    \verb http://dx.doi.org/10.1002/pst.1675
+    \endverb
+    \field{volume}{14}
+    \field{journaltitle}{Pharmaceutical Statistics}
+    \field{year}{2015}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Wang2002}{article}{}
+    \name{author}{2}{}{%
+      {{hash=WF}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Fei},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=GAE}{%
+         family={Gelfand},
+         familyi={G\bibinitperiod},
+         given={Alan\bibnamedelima E.},
+         giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {English}%
+    }
+    \list{publisher}{1}{%
+      {Institute of Mathematical Statistics}%
+    }
+    \strng{namehash}{WFGAE1}
+    \strng{fullhash}{WFGAE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2002}
+    \field{sortinit}{W}
+    \field{sortinithash}{W}
+    \field{abstract}{%
+    Sample size determination (SSD) is a crucial aspect of experimental design.
+  Two SSD problems are considered here. The first concerns how to select a
+  sample size to achieve specified performance with regard to one or more
+  features of a model. Adopting a Bayesian perspective, we move the Bayesian
+  SSD problem from the rather elementary models addressed in the literature to
+  date in the direction of the wide range of hierarchical models which dominate
+  the current Bayesian landscape. Our approach is generic and thus, in
+  principle, broadly applicable. However, it requires full model specification
+  and computationally intensive simulation, perhaps limiting it practically to
+  simple instances of such models. Still, insight from such cases is of useful
+  design value. In addition, we present some theoretical tools for studying
+  performance as a function of sample size, with a variety of illustrative
+  results. Such results provide guidance with regard to what is achievable. We
+  also offer two examples, a survival model with censoring and a logistic
+  regression model. The second problem concerns how to select a sample size to
+  achieve specified separation of two models. We approach this problem by
+  adopting a screening criterion which in turn forms a model choice criterion.
+  This criterion is set up to choose model 1 when the value is large, model 2
+  when the value is small. The SSD problem then requires choosing n<sub>1</sub>
+  to make the probability of selecting model 1 when model 1 is true
+  sufficiently large and choosing n<sub>2</sub> to make the probability of
+  selecting model 2 when model 2 is true sufficiently large. The required n is
+  max (n<sub>1</sub>, n<sub>2</sub>). Here, we again provide two illustrations.
+  One considers separating normal errors from t errors, the other separating a
+  common growth curve model from a model with individual growth curves.%
+    }
+    \field{issn}{08834237}
+    \field{number}{2}
+    \field{pages}{pp. 193\bibrangedash 208}
+    \field{title}{A Simulation-Based Approach to Bayesian Sample Size
+  Determination for Performance under a Given Model and for Separating Models}
+    \verb{url}
+    \verb http://www.jstor.org/stable/3182824
+    \endverb
+    \field{volume}{17}
+    \field{journaltitle}{Statistical Science}
+    \field{year}{2002}
+  \endentry
+
+  \entry{Wang2013}{article}{}
+    \name{author}{4}{}{%
+      {{hash=WY}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Yanping},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=FH}{%
+         family={Fu},
+         familyi={F\bibinitperiod},
+         given={Haoda},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=KP}{%
+         family={Kulkarni},
+         familyi={K\bibinitperiod},
+         given={Pandurang},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=KC}{%
+         family={Kaiser},
+         familyi={K\bibinitperiod},
+         given={Christopher},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {{SAGE} Publications}%
+    }
+    \strng{namehash}{WY+1}
+    \strng{fullhash}{WYFHKPKC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2013}
+    \field{sortinit}{W}
+    \field{sortinithash}{W}
+    \verb{doi}
+    \verb 10.1177/1740774513478229
+    \endverb
+    \field{number}{3}
+    \field{pages}{407\bibrangedash 413}
+    \field{title}{Evaluating and utilizing probability of study success in
+  clinical development}
+    \verb{url}
+    \verb https://doi.org/10.1177%2F1740774513478229
+    \endverb
+    \field{volume}{10}
+    \field{journaltitle}{Clinical Trials}
+    \field{year}{2013}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Zhang2013}{article}{}
+    \name{author}{2}{}{%
+      {{hash=ZJ}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Jianliang},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=ZJJ}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Jenny\bibnamedelima J.},
+         giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley-Blackwell}%
+    }
+    \strng{namehash}{ZJZJJ1}
+    \strng{fullhash}{ZJZJJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2013}
+    \field{sortinit}{Z}
+    \field{sortinithash}{Z}
+    \verb{doi}
+    \verb 10.1002/pst.1597
+    \endverb
+    \field{number}{6}
+    \field{pages}{358\bibrangedash 365}
+    \field{title}{Joint probability of statistical success of multiple phase
+  {III} trials}
+    \verb{url}
+    \verb https://doi.org/10.1002%2Fpst.1597
+    \endverb
+    \field{volume}{12}
+    \field{journaltitle}{Pharmaceutical Statistics}
+    \field{year}{2013}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+\endsortlist
+\endinput

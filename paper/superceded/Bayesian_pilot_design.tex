@@ -1,0 +1,225 @@
+\documentclass{article} %[twocolumn]
+
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{textcomp}
+\usepackage{multirow}
+
+\DeclareMathOperator*{\argmax}{arg\,max} 
+
+\title{Bayesian design of pilot trials for complex interventions}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+External pilot trials are routinely used to inform the feasibility and optimal design of confirmatory RCT's for complex interventions [CONSORT].
+Pilot trials often use pre-specified progression criteria when deciding if a confirmatory trial is warranted, and if any adjustments should be made to either the intervention or the trial design to ensure its feasibility.
+When a progression criteria relates to a quantitative parameter, such as the per-month per-centre recruitment rate, 
+
+\section{Problem}
+
+We consider an external pilot trial of a complex intervention which aims to assess several outcomes (e.g. recruitment, adherence, data collection, efficacy) and to make a decision regarding whether a confirmatory trial should be undertaken based on these assessments. The decision is between three options: to abandon the evaluation of the intervention; to modify the intervention and/or the trial design in response to weaknesses identified in the pilot, and proceed to a confirmatory trial; and to proceed to a confirmatory trial with no modifications. The same set of decisions has been considered for internal pilot trials assessing recruitment~\cite{Hampson2017}. We assume that a prior distribution on all unknown parameters (including any nuisance parameters) has been specified. We also assume that the parameter space has been partitioned into three subsets corresponding to situations where the three decisions are considered to be optimal. We do not assume a utility function is available.
+
+We aim to define one or more quantities which measure the quality of a proposed trial design and thus enable better design decisions. A trial design will specify both the sample size (which may include several variables, e.g. in a multilevel trial) and the decision rule.
+
+% Revise and expand this to be clearer / less abstract.
+
+\section{Methods}
+
+We label the three decisions as $d \in \{r, a, g\}$, where
+\begin{itemize}
+\item $r$ed = abandon evaluation;
+\item $a$mber = modify and proceed;
+\item $g$reen = proceed without modification.
+\end{itemize}
+The optimal decision will depend on the true underlying parameter $\phi$. We denote by $\Phi_{d}$ the subset of the full parameter space $\Phi$ for which decision $d$ is optimal, with $\Phi_{r}, \Phi_{a}$ and $\Phi_{g}$ partitioning $\Phi$ (i.e. every $\phi \in \Phi$ belongs to exactly one of $\Phi_{r}, \Phi_{a}$ or $\Phi_{g}$). An example two-dimension parameter space partitioned in this manner is illustrated in Figure~\ref{fig:prior}. We propose to base our evaluations of a trial design on the nine probabilities of making each decision under each hypothesis $\Phi_{d}$. These are set out in Table~\ref{tab:probs}. Specifically, we will focus on the unconditional probabilities of three events:
+\begin{enumerate}
+\item Running a futile confirmatory trial ($p_{r,a} + p_{r,g} + p_{a,g}$);
+\item Making unnecessary adjustments ($p_{r,a} + p_{g,a}$);
+\item Discarding a promising intervention ($p_{a,r} + p_{g,r} + p_{a,g}$).
+\end{enumerate}
+
+\begin{table}
+\centering
+\begin{tabular}{r r l l l l}
+\toprule
+& & \multicolumn{3}{c}{Truth} & \\
+& & $r$ & $a$ & $g$ & \\
+\midrule
+\multirow{3}{*}{Action} & $r$ & $p_{r,r}$ & $p_{a,r}$ & $p_{g,r}$ & $A_{r}$ \\
+ & $a$ & $p_{r,a}$ & $p_{a,a}$ & $p_{g,a}$ & $A_{a}$ \\
+ & $g$ & $p_{r,g}$ & $p_{a,g}$ & $p_{g,g}$ & $A_{g}$ \\
+ \midrule
+ & & $\Phi_{r}$ & $\Phi_{a}$ & $\Phi_{g}$ & 1 \\
+\bottomrule
+\end{tabular}
+\caption{Probabilities of decisions and hypotheses.}
+\label{tab:probs}
+\end{table}
+
+We propose to make the post-trial decision by following a pre-specified decision rule based on posterior probabilities $p_{d} = Pr[\phi \in \Phi_{d} \mid x]$, where $x$ is the observed pilot data. A decision rule is a partition of the space $\mathcal{P} = \{(p_{r}, p_{g}) \in [0,1]^{2} \mid 0 \leq p_{r} + p_{g} \leq 1 \}$ into three subsets corresponding to the three decisions. Note that the posterior probability $p_{a}$ is implicitly accounted for in this representation since $p_{a} = 1-p_{r}-p_{g}$. An example decision rule is illustrated in Figure~\ref{fig:rule}. One-dimensional analogues of this, based on the posterior probabilities of only two hypotheses, are found throughout the Bayesian trial design literature e.g.~\cite{Ibrahim2014}. We denote this decision rule as $a(x): \mathcal{P}  \rightarrow \{r, a, g\}$ where the dependence on $x$ comes through the posterior probabilities $p_{r}$ and $p_{g}$. The probabilities in the cells of Table~\ref{tab:probs} are then given by
+\begin{equation}
+p_{i,j} = \mathbb{E} [ I(\phi \in \Phi_{i}, a(x) = j) ].
+\end{equation}
+A simple Monte Carlo estimate is then
+\begin{equation} \label{eqn:MC_prob}
+p_{i,j} \approx \frac{1}{N} \sum_{k=1}^{N} I(\phi^{(k)} \in \Phi_{i}, a(x^{(k)}) = j),
+\end{equation}
+where the $\phi^{(k)}, x^{(k)}$ are simulated from the joint distribution of $\phi, x$. For each sample we need to compute $a(x^{(k)})$, which requires calculating the posterior probabilities $p_{r}, p_{g}$. This typically requires sampling from the posterior distribution\footnote{Even when an anlytic expression of the posterior is available, any irregularity of the partition of $\Phi$ to be integrated over will mean exact cacluation of the required probabilities will not be possible. Exceptions could possibly include box-like hypotheses in few dimensions.} $\phi \mid x^{(k)}$, and such a nested Monte Carlo scheme (requiring a large number of samples in an inner loop for each iteration of an outer loop) will incur a significant computational burden. More importantly, when we are not in a simple setting with conjugate priors, sampling from the posterior will require MCMC and will not be so reliable that the process can be automated $N$ times as required (e.g. we can't automate checking for convergence of the Markov chains). To estimate the probabilities of Table~\ref{tab:probs} in a fast and reliable way, we adapt the ideas of~\cite{Strong2015} developed in the context of value of information calculations.
+
+First, suppose that there exists a function $f(d, \phi)$ such that its expected value with respect to any posterior distribution $\phi \mid x$ is maximised at the same decision $d$ that results from the rule $a(x)$, i.e.
+\begin{equation} \label{eqn:rule_surrogate}
+\argmax_{d \in \{r, a, g\}} \mathbb{E}_{\phi \mid x} [f(d, \phi)] = a(x).
+\end{equation}
+Then, we note that the function $f(d, \phi)$ can be viewed as the sum of an expected value plus an error term,
+\begin{equation}
+f(d, \phi) = \mathbb{E}_{\phi \mid x} [f(d, \phi)] + \epsilon,
+\end{equation}
+where the error term is a function of $\phi$ and $x$ with zero mean~\cite{Strong2015}. For each action $d$ we can think of $\mathbb{E}_{\phi \mid x} [f(d, \phi)]$ as just some unknown function of the data $x$, and we can construct a regression model approximating this function. To do so we generate a set of pairs of dependant variables $f(d, \phi)$ and associated independent variables $x \mid \phi$. To generate one pair we first sample $\phi$ from the prior distribution, then calculate $f(d, \phi)$, then sample $x$ conditional on $\phi$. We calculate appropriate statistics $\bar{x}$ summarising the data $x$, and regress $f(d, \phi)$ against $\bar{x}$. We can then use the three regression models (one for each decision) to estimate the expectations in (\ref{eqn:rule_surrogate}) to give a surrogate of the decision rule $a(x)$. We can then use this surrogate in the Monte Carlo estimate (\ref{eqn:MC_prob}) to calculate the necessary probabilities whilst avoiding a nested MC sampling scheme.
+
+We now consider how to generate a function $f(d, \phi)$ which satisfies (\ref{eqn:rule_surrogate}). Let $f$ take the piece-wise constant form
+\[
+  f(d, \phi) =\begin{cases}
+               x_{d} \text{ if } \phi \in \Phi_{r} \\
+               y_{d} \text{ if } \phi \in \Phi_{a} \\
+               z_{d} \text{ if } \phi \in \Phi_{g}, 
+            \end{cases}
+\]
+for $d \in \{r, a, g \}$. Then $\mathbb{E}_{\phi \mid x}[f(d, \phi)] = p_{r}x_{d} + (1-p_{r}-p_{g})y_{d} + p_{g}z_{d}$. We can impose a number of equality constraints on $f$'s parameter values. For example, at the point $(p_{r}, p_{g}) = (0.5, 0)$ in the decision rule of Figure~\ref{fig:rule} the areas corresponding to the decisions $r$ and $a$ meet, and so the expected value of $f$ for those decisions must be equal at that point. That is,
+\begin{align}
+0.5 x_{r} + (1-0.5-0)y_{r} + 0z_{r} &= 0.5 x_{a} + (1-0.5-0)y_{a} + 0z_{a} \\
+0.5 x_{r} + 0.5y_{r} &= 0.5x_{a} + 0.5y_{a}.
+\end{align}
+We may also ask for some inequalities to be satisfied, e.g. $x_{r} \geq y_{r}$ and $y_{g} \leq z_{g}$. Finally, to avoid the trivial solution where all parameters are equal to 0, we ask that $x_{r} = 1$. These constraints can be written as a linear system and a solution found using linear programming. For example, the rule of Figure~\ref{fig:rule} leads to the solution of 
+\begin{equation}
+(x_{r}, y_{r}, \ldots, z_{g}) = (1, 0.028, -0.946, 0.514, 0.514, 0, 0, 0.028, 0.054).
+\end{equation}
+Note that the function $f(d, \phi)$ depends on only the decision rule, and is not influenced by other characteristics of the problem such as the number of parameters, their prior distributions, or the specific form of the hypotheses $\Phi_{d}$.
+
+\section{Illustration}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{"rule"}
+\caption{Example decision rule based on posterior probabilities $p_{r}$ and $p_{g}$. The cross marks the prior.}
+\label{fig:rule}
+\end{figure}
+
+We apply the method to a hypothetical cluster randomised pilot trial which aims to assess the average number of patients per cluster and the proportion of patients with complete data at follow-up. The trial will include $k = 12$ clusters, and we assume the number of patients in each cluster will be normally distributed with mean $\mu_{r}$ and known variance equal to 1. We denote by $\eta_{f}$ the probability of obtaining complete follow-up data on a patient. We use a normal distribution as a prior for the mean cluster size, $\mu_{r} \sim N(m_{r}, s_{r}^{2})$ with $m_{r} = 10$ and $s_{r}^{2} = 1$. We use a beta distribution as a prior for the probability that a patient will have complete data $\eta_{f} \sim Beta(a_{f}, b_{f})$, with $a_{f} = 22.4$ and $b = 9.6$ (corresponding to a mean of 0.7 and a prior sample size of 30). The parameter space is partitioned into the three subsets $\Phi = \Phi_{r} \cup \Phi_{a} \cup \Phi_{g}$ using the following algorithm: 
+\[
+  d =\begin{cases}
+               r \text{ if } \mu_{r} < 9 \text{ or } \eta_{f} < 0.6 \text{ or } 1.6 - 0.1\mu_{r} > \eta_{f} \\
+               a \text{ if } \mu_{r} < 10 \text{ or } \eta_{f} < 0.7 \text{ or } 1.75 - 0.1\mu_{r} > \eta_{f} \\
+               g \text{ otherwise.}
+            \end{cases}
+\]
+This is illustrated in the left plot of Figure~\ref{fig:prior}, where each point is a sample from the prior distribution.
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.35\textwidth}
+        \centering
+        \includegraphics[height=7.5cm, trim={0 0 1.9cm 0},clip]{prior} % first figure itself
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}
+        \centering
+        \includegraphics[height=7.5cm]{surrogate} % second figure itself
+    \end{minipage}
+    \caption{Samples from the prior distribution and their optimal decision (left); corresponding sample estimates and decision made using the GAM surrogate decision rule (right).}
+    \label{fig:prior}
+\end{figure}
+
+We use the decision rule illustrated in Figure~\ref{fig:rule} with the aforementioned solution to the surrogate function $f(d, \phi)$. To build the regression models we generate $10^{5}$ samples $\phi^{(i)} = (\mu_{r}^{(i)}, \eta_{f}^{(i)})$ from the joint prior distribution. For each sample we calculate $f(d, \phi^{(i)})$ for each action $d$ and generate data $x^{(i)} \mid \phi^{(i)}$. Each data set is reduced to a vector $\bar{\mathbf{x}}^{(i)}$ of two statistics, the sample average of the cluster size and the sample proportion of patients with complete data. For each action $d$ we regress $f(d, \phi^{(i)})$ against $\bar{\mathbf{x}}^{(i)}$ using the generalised additive model (GAM), a flexible non-parametric approach which assumes that the expectation of the dependant variable is a smooth function of the independent variables.
+
+To evaluate the accuracy of the GAM approach, we simulate another $10^{4}$ $\phi, \bar{\mathbf{x}}$ pairs and use the predictions of the models to estimate the expectations needed in (\ref{eqn:rule_surrogate}) and thus determine the best decision $d$. We compare this with a procedure where MC estimates of the posterior probabilities are calculated using $10^{4}$ samples from the posterior distribution $\phi \mid x$. This is feasible (although still not fast) in this example because we have conjugate priors. We can compare the decisions made using each approach with each other, and with the true underlying parameter value $\phi$.
+
+\begin{table}
+\centering
+\begin{tabular}{r r l l l l}
+\toprule
+& & \multicolumn{3}{c}{Truth} & \\
+& & $r$ & $a$ & $g$ & \\
+\midrule
+\multirow{3}{*}{Action} & $r$ & 0.2093 & 0.0538 & 0.0006 & 0.2637 \\
+ & $a$ & 0.0920 & 0.4101 & 0.1833 & 0.6854 \\
+ & $g$ & 0.0000 & 0.0018 & 0.0491 & 0.0509 \\
+ \midrule
+ & & 0.3013 & 0.4657 & 0.2330 & 1 \\
+\bottomrule
+\end{tabular}
+\caption{Outcome probabilities using GAMs.}
+\label{tab:GAM}
+\end{table}
+
+Table~\ref{tab:GAM} illustrates the implications of the decision rule of Figure~\ref{fig:rule}. The aforementioned unconditional error probabilities in this case are estimated to be:
+\begin{enumerate}
+\item Running a futile confirmatory trial; $p_{r,a} + p_{r, g} + p_{a, g} = 0.0938$.
+\item Making an unnecessary adjustment; $p_{r, a} + p_{g, a} = 0.2753$.
+\item Discarding a promising intervention; $p_{a, r} + p_{g, r} + p_{a, g} = 0.0562$.
+\end{enumerate}
+The decision rule is illustrated in the sample space in right plot of Figure~\ref{fig:prior}, which shows the estimates ($\hat{\mu}_{r}, \hat{\eta}_{f}$) for each sampled data set classified by the associated decision.
+
+The accuracy of the GAM approach can be assessed by comparing the decisions with those made using the nested MC approach, for each of the sampled data. These differences are summarised in Table~\ref{tab:comparison}. We see that the decisions typically correspond well, disagreeing in only 0.68\% of the simulated instances.
+
+\begin{table}
+\centering
+\begin{tabular}{r r l l l l}
+\toprule
+& & \multicolumn{3}{c}{Nested MC} & \\
+& & $r$ & $a$ & $g$ & \\
+\midrule
+\multirow{3}{*}{GAMs} & $r$ & 0.2637 & 0.0000 & 0.0000 & 0.2637 \\
+ & $a$ & 0.0042 & 0.6788 & 0.0024 & 0.6854 \\
+ & $g$ & 0.0000 & 0.0002 & 0.0507 & 0.0509 \\
+ \midrule
+ & & 0.2679 & 0.6790 & 0.0531 & 1 \\
+\bottomrule
+\end{tabular}
+\caption{Decisions made using GAMs and nested MC estimates.}
+\label{tab:comparison}
+\end{table}
+
+If we want to reduce the unconditional error probabilities, we could consider adjusting the decision rule or the sample size of the trial. We consider the latter here, increasing the number of clusters from 12 to 50. Using the GAM approach, this gives us error probabilities of 1) 0.042, 2) 0.1526 and 3) 0.0386. Again, a comparison with the nested MC approach shows broad agreement, with 0.75\% of cases not matching. For a fixed decision rule, we could choose an appropriate sample size by calculating these three quantities for a range of $k$ values, plotting the results, and judging the trade-off between sample size and quality.
+
+\section{Discussion points}
+
+\begin{itemize}
+\item We choose our action by maximising the expected value of $f(j, \phi)$, which is equivalent to following the subjective decision-theoretic approach where $f(j, \phi)$ is our utility function. Looking at the values of $f$ which match the decision rule, they do not seem to match any intuitive utility description (e.g. the value of making decisions -1 and 0 are equal under hypothesis $\Phi_{0}$). 
+\item The GAM models assume that the expectations are smooth in terms of the independent variables, in our case sample statistics. When will this not be a realistic assumption? More generally, the models should be subject to regression diagnostics. How should they be assessed? What would indicate they have not approximated the unknown function sufficiently well?
+\item The form of the decision rule may be restricted according to some common sense / intuitive principles, and also mathematically, i.e. we require the existence of a non-trivial solution to the linear program. Explore each of these aspects to understand the limitations they impose.
+\item Both methods described, using GAM and using a nested MC scheme, will have some error in the expectations they estimate and therefore in the decisions they suggest and the probabilities of Table~\ref{tab:probs} they estimate. Find expressions for each of these.
+\item Explore to what extent the decision rule is fixed, or free to be adjusted in order to arrive at the desired unconditional error probabilities. Note that this will lead to a significantly more complex trial design optimisation problem.
+\item The surrogate function $f$ should be evaluated to check it corresponds with the original decision rule. How best to do so?
+\item The surrogate function $f$ is found as a feasible solution to a linear program. Can we go further and find an optimal solution, for example one which maximises the difference between the three decisions?
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{U:/Literature/Databases/DTWrefs}
+
+\end{document}
+
+Comments from James, 22/08/2017
+
+When will the methods be applicable to internal, rather than external, pilots? Internal implies any modifications will be restricted since they have to be made quickly. We also don't have the option of running another trial to test modifications, so would possibly need another internal phase as in~\cite{Hampson2017} - an adaptive design. And we need to account for the pilot decision making when doing the final analysis - does a Bayesian interim analysis have implications on final type I error? Could be a useful extension to consider all these issues.
+
+The infeasibility of MCMC. Note that even if we have a nice, conjugate, closed-form expression of the posterior distribution given some data, we will still likely need to use an MC approach to estimating the posterior hypothesis probabilities because the hypotheses have a complex form (i.e. with various trade-offs etc) and exact integration won't be possible, especially with several parameters. So we are always looking at a two-level nested MC scheme, and the computational burden that comes from that. When we don't have a simple expression from the posterior, we will need MCMC to generate samples from it, and this is (I think) hard to automate in a reliable way (again, particularly with several parameters and a complex model).
+
+Multivariate GAM. So, taking the f(d, phi) for each d as three outputs to be regressed against the x. From a quick look at the R package, it seems that multivariate normal outcomes are supported but no indication of multivariate ordered categorical data, as we would require.
+
+In our example, can we consider the variance of cluster size to be unknown and put a prior on it? Could be useful in illustrating the case where we have a nuisance parameter which is not used when making decisions (so the decision rule / hypotheses can still be illustrated in two dimensions), but which will influence the error probabilities.
+
+Smoothness assumption in the GAMs. We need the expectation to be smooth in the sample statistics. With the small samples of a pilot, will the statistics themselves be smooth? For example, adherence at a cluster level with only 6 clusters in an intervention arm, the statistic is very discrete with just 7 possible values. Need to read more on GAMs and be clear exactly what is meant by smoothness.
+
+Choice and optimality of f. Framing the problem as a linear program and finding a feasible solution is quick and simple, but leaves us wondering if the solution is the best we could have found. We could consider first proceeding as above to ensure a feasible solution exists, then going on to use a non-linear objective function with the same constraints and a more flexible optimisation algorithm. For example, an objective could be to minimise the integral of 1/sqrt(delta), where delta is the difference between the planes of the best and second best decision. This would penalise small differences, with the penalty reducing and levelling off as the difference increases.
+
+
+
+
