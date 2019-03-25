@@ -1,15 +1,14 @@
 ---
-title: 'Bayesian design and analysis of external pilot trials for complex interventions:
-  Appendix'
+title: 'Bayesian design and analysis of external pilot trials for complex interventions'
 author: "D. T. Wilson"
-date: "11 October 2018"
-output:
-  pdf_document: default
-  html_document: default
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+require(ggplot2)
+require(Rcpp)
 ```
 
 ## Illustrative example - TIGA-CUB
@@ -18,9 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Recall we are interested in the overall follow-up rate, $p_f$, and in the adherence rate in the intervention arm, $p_a$. The hypotheses described in the paper are:
 
-```{r, eval=T}
-library(ggplot2)
-
+```{r}
 # Threshold values for follow-up and adherence
 f_c <- 0.8
 a_c <- 0.7
@@ -163,10 +160,6 @@ NumericMatrix get_ocs_cpp(NumericMatrix df, int n, double c, NumericVector an_pr
 ```
 
 ```{r, eval=T}
-library(Rcpp)
-Rcpp::sourceCpp('U:/Projects/MRC SDF/WP2/Papers/cpp_funcs.cpp')
-
-# Full MC approximation, working in c++
 get_ocs2 <- function(c, n, N, f_c, a_c, des_pri, an_pri=des_pri)
 {
   df <- data.frame(p_f = rbeta(N, des_pri[1], des_pri[2]), p_a = rbeta(N, des_pri[3], des_pri[4]))
@@ -184,11 +177,25 @@ get_ocs2(c=0.5, n=30, N=10^6, f_c=0.8, a_c=0.7, des_pri=c(f_a, f_b, a_a, a_b), a
 For a number of values of the loss parameter $c$, we can show how the error rates improve with increasing the sample size $n$.
 
 ```{r, eval=F}
-get_plot <- function(c, N)
+get_plot_data <- function(c, N)
 {
   df <- data.frame(n=seq(10, 100, 2))
   df <- cbind(df, t(sapply(df$n, function(n) get_ocs2(c, n, N=N, f_c=0.8, a_c=0.7, des_pri=c(f_a, f_b, a_a, a_b), an_pri=rep(1,4)))))
   names(df)[2:3] <- c("OC1", "OC2")
+  df
+}
+
+df <- get_plot_data(0.25, 10^6)
+# saveRDS(df, "./data/tiga_c025.Rda")
+df <- get_plot_data(0.5, 10^6)
+# saveRDS(df, "./data/tiga_c05.Rda")
+df <- get_plot_data(0.75, 10^6)
+# saveRDS(df, "./data/tiga_c075.Rda")
+```
+
+```{r}
+get_plot <- function(df, c, N)
+{
   df$L <- df$OC1*c + df$OC2*(1-c)
   df$OC1_w <- 1.96*sqrt(df$OC1*(1-df$OC1)/N) 
   df$OC2_w <- 1.96*sqrt(df$OC2*(1-df$OC2)/N) 
@@ -207,29 +214,39 @@ get_plot <- function(c, N)
     ylab("Error probability") + xlab("Sample size")
 }
 
-p1 <- get_plot(0.25, 10^6)
-p2 <- get_plot(0.5, 10^6)
-p3 <- get_plot(0.75, 10^6)
+p1 <- get_plot(readRDS("./data/tiga_c025.Rda"), 0.25, 10^6)
+p2 <- get_plot(readRDS("./data/tiga_c05.Rda"), 0.5, 10^6)
+p3 <- get_plot(readRDS("./data/tiga_c075.Rda"), 0.75, 10^6)
 
-p1 <- p1 + theme_minimal() + theme(legend.title=element_blank()) + ylim(c(0,0.3)) + 
+p1 + theme_minimal() + theme(legend.title=element_blank()) + ylim(c(0,0.3)) + 
   ggtitle(expression(paste(c[1], " = 0.25"))) + theme(plot.title = element_text(hjust = 0.5)) 
-p2 <- p2 + theme_minimal() + theme(legend.title=element_blank()) + ylim(c(0,0.3)) +
+
+#ggsave("./paper/figures/tiga_c025.pdf", height=3, width=3)
+
+p2 + theme_minimal() + theme(legend.title=element_blank()) + ylim(c(0,0.3)) +
   ggtitle(expression(paste(c[1], " = 0.5"))) + theme(plot.title = element_text(hjust = 0.5)) 
-p3 <- p3 + theme_minimal() + theme(legend.title=element_blank()) + ylim(c(0,0.3)) +
+
+#ggsave("./paper/figures/tiga_c05.pdf", height=3, width=3)
+
+p3 + theme_minimal() + theme(legend.title=element_blank()) + ylim(c(0,0.3)) +
   ggtitle(expression(paste(c[1], " = 0.75"))) + theme(plot.title = element_text(hjust = 0.5)) 
 
-#ggsave("U:/Projects/MRC SDF/WP2/Papers/Figures/tiga_c025.pdf", p1, height=3, width=3)
-#ggsave("U:/Projects/MRC SDF/WP2/Papers/Figures/tiga_c05.pdf", p2, height=3, width=3)
-#ggsave("U:/Projects/MRC SDF/WP2/Papers/Figures/tiga_c075.pdf", p3, height=3, width=3)
+#ggsave("./paper/figures/tiga_c075.pdf", height=3, width=3)
 ```
 
 Similarly, for a fixed sample size of $n=60$ we can vary $c$ and plot the results:
 
-```{r}
+```{r, eval=F}
 df <- data.frame(c=seq(0, 1, 0.02))
 N <- 10^6
-
 df <- cbind(df, t(sapply(df$c, function(c) get_ocs2(c, n=60, N=10^6, f_c=0.8, a_c=0.7, des_pri=c(f_a, f_b, a_a, a_b), an_pri=rep(1,4)))))
+
+#saveRDS(df, "./data/tiga_n60.Rda")
+```
+
+```{r}
+df <- readRDS("./data/tiga_n60.Rda")
+
 names(df)[2:3] <- c("OC1", "OC2")
 df$L <- df$OC1*df$c + df$OC2*(1-df$c)
 df$OC1_w <- 1.96*sqrt(df$OC1*(1-df$OC1)/N) 
@@ -237,7 +254,7 @@ df$OC2_w <- 1.96*sqrt(df$OC2*(1-df$OC2)/N)
 df$L_v <- (df$OC1*(1-df$OC1)/N)*df$c^2 + (df$OC2*(1-df$OC2)/N)*(1-df$c)^2
 df$L_w <- 1.96*sqrt(df$L_v)
   
-p <- ggplot() + 
+ggplot() + 
     geom_ribbon(data=df, aes(x=c, ymin = OC1 - OC1_w, ymax = OC1 + OC1_w), fill = "grey70") +
     geom_ribbon(data=df, aes(x=c, ymin = OC2 - OC2_w, ymax = OC2 + OC2_w), fill = "grey70") +
     geom_ribbon(data=df, aes(x=c, ymin = L - L_w, ymax = L + L_w), fill = "grey70") +
@@ -249,7 +266,7 @@ p <- ggplot() +
     ylab("Error probability") + xlab(expression(paste("Loss parameter ", c[1]))) +
   theme_minimal() + theme(legend.title=element_blank())
 
-#ggsave("U:/Projects/MRC SDF/WP2/Papers/Figures/tiga_n60.pdf", p, height=9, width=14, units="cm")
+#ggsave("./paper/figures/tiga_n60.pdf", p, height=9, width=14, units="cm")
 ```
 
 ## Illustrative example - REACH
