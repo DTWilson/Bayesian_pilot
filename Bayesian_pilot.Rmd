@@ -605,12 +605,12 @@ For a simulated data set, we use rstan to conduct the MCMC analysis.
 set.seed(320985097)
 ptm <- proc.time()
 fit <- fit2 <- fit3 <- NULL
-for(k in c(18, 24)){
+for(k in c(12, 18)){
   print(k)
   res1 <- res2 <- res3 <- NULL
   preds <- NULL
-  for(i in 1:1000){
-    print(i)
+  for(i in 1:10000){
+    if(i %% 10 == 0) print(i)
   
     d <- sim_trial(k)
   
@@ -641,10 +641,11 @@ for(k in c(18, 24)){
     #                    3 - vauge priors on substantive params except adherance (at cluster level)
     # When not using a vauge prior, we use the design prior
     
-    o <- capture.output(  fit <- stan(file = './stan/WP2_ex_REACH_5_1.stan', 
+    o <- capture.output(  fit <- suppressWarnings( stan(file = './stan/WP2_ex_REACH_5_1.stan', 
                                       fit = if(!is.null(fit)){fit},
                                       data = REACH_data,
-                iter = 5000, chains = 4, control=list(adapt_delta =0.9)) )
+                iter = 5000, chains = 4, control=list(adapt_delta =0.9)) ) 
+                )
   
     pr <- summary(fit)$summary["pr",c("mean", "se_mean")]
     pa <- summary(fit)$summary["pa",c("mean", "se_mean")]
@@ -653,10 +654,11 @@ for(k in c(18, 24)){
     names(to_add1)[(ncol(to_add1)-6):ncol(to_add1)] <- c("y", "pr", "pr_se", "pa", "pa_se", "pg", "pg_se")
     res1 <- rbind(res1, to_add1)
     
-    o <- capture.output(  fit2 <- stan(file = './stan/WP2_ex_REACH_5_2.stan', 
+    o <- capture.output(  fit2 <- suppressWarnings( stan(file = './stan/WP2_ex_REACH_5_2.stan', 
                                        fit = if(!is.null(fit2)){fit2},
                                        data = REACH_data,
                 iter = 5000, chains = 4, control=list(adapt_delta =0.9)) )
+    )
     
     pr <- summary(fit2)$summary["pr",c("mean", "se_mean")]
     pa <- summary(fit2)$summary["pa",c("mean", "se_mean")]
@@ -665,10 +667,11 @@ for(k in c(18, 24)){
     names(to_add2)[(ncol(to_add2)-6):ncol(to_add2)] <- c("y", "pr", "pr_se", "pa", "pa_se", "pg", "pg_se")
     res2 <- rbind(res2, to_add2)
     
-    o <- capture.output(  fit3 <- stan(file = './stan/WP2_ex_REACH_5_3.stan', 
+    o <- capture.output(  fit3 <- suppressWarnings( stan(file = './stan/WP2_ex_REACH_5_3.stan', 
                                        fit = if(!is.null(fit3)){fit3},
                                        data = REACH_data,
                 iter = 5000, chains = 4, control=list(adapt_delta =0.9)) )
+    )
     
     pr <- summary(fit3)$summary["pr",c("mean", "se_mean")]
     pa <- summary(fit3)$summary["pa",c("mean", "se_mean")]
@@ -770,16 +773,6 @@ d <- d[(d$c1+d$c2)<1,]
 
 Next, we load the results of the nested MC analysis. Note here that we carried out three analyses, each using the same set of simulated $(\phi, x)$ but changing what analysis priors were used. The file `exp_i.Rda` is associated with the Stan script `WP2_ex_REACH_5_i.stan' containing the full details of the analysis. The cases i = 1,2,3 correspond to weakly informative priors, informative priors for nuisance parameters only, and informative priors for nuisance parameters and for the probability of adherence.
 
-```{r, eval=T}
-# exp_i.Rda orresponding to WP2_ex_REACH_5_i.stan
-# 1 - weakly informative
-# 2 - informative nuisance
-# 3 - informative nuisance plus adherence
-res <- readRDS("./data/exp_1.Rda")
-#res <- readRDS("../R/exp_2.Rda")
-#res <- readRDS("../R/exp_3.Rda")
-```
-
 Now we estimate the operating characteristics for each loss parameter vector, discard all those which are dominated, and plot the results.
 
 ```{r, eval=T}
@@ -827,6 +820,12 @@ get_objectives <- function(rule, res)
   
   return(c(OC1, OC2, OC3, EL))
 }
+
+# exp_i_j.Rda orresponding to WP2_ex_REACH_5_i.stan
+# 1 - weakly informative
+# 2 - informative nuisance
+# 3 - informative nuisance plus adherence
+res <- readRDS("./data/exp_1_6.Rda")
 
 rs <- t(apply(d, 1, get_objectives, res=res))
 
@@ -922,3 +921,21 @@ ggplot(temp, aes(IN, IA, colour = OC, shape=OC)) + geom_point(alpha=0.6) +
 ```
 
 
+Compare OCs for different sample sizes for a specific choice of cost parameters.
+
+```{r}
+cs <- c(0.068745599, 0.1161506696)
+
+df <- NULL
+for(k in c(6)){
+  df <- rbind(df, c(k, get_objectives(cs, res=readRDS(paste0("./data/exp_1_",k,".Rda")))))
+}
+df <- as.data.frame(df)
+names(df) <- c("k", "OC1", "OC3", "OC2", "EL")
+df <- melt(df, "k")
+df$se <- sqrt(df$value*(1-df$value)/10000)
+
+ggplot(df, aes(k, value, colour=variable)) + geom_point() + geom_line() +
+  geom_errorbar(aes(ymin=value-qnorm(0.975)*se, ymax=value+qnorm(0.975)*se), width=.2) +
+  theme_minimal()
+```
