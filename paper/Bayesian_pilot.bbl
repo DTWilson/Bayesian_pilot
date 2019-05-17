@@ -1,0 +1,282 @@
+\begin{thebibliography}{10}
+\providecommand \doibase [0]{http://dx.doi.org/}%
+
+\bibitem{Craig2008}
+Craig P, Dieppe P, Macintyre S, Michie S, Nazareth I, Petticrew M. Developing
+  and evaluating complex interventions: the new Medical Research Council
+  guidance. {\it BMJ: British Medical Journal} 2008\string; 337.
+\newblock \href {\doibase 10.1136/bmj.a1655} {doi: 10.1136/bmj.a1655}
+
+\bibitem{Eldridge2016}
+Eldridge SM, Lancaster GA, Campbell MJ, et al. Defining Feasibility and Pilot
+  Studies in Preparation for Randomised Controlled Trials: Development of a
+  Conceptual Framework. {\it {PLOS} {ONE}} 2016\string; 11(3)\string: e0150205.
+\newblock \href {\doibase 10.1371/journal.pone.0150205} {doi:
+  10.1371/journal.pone.0150205}
+
+\bibitem{NIHR2017}
+{National Institute for Health Research} . Research for Patient Benefit (RfPB)
+  Programme Guidance on Applying for Feasibility Studies. 2017.
+
+\bibitem{Eldridge2016a}
+Eldridge SM, Chan CL, Campbell MJ, et al. {CONSORT} 2010~{s}tatement: extension
+  to randomised pilot and feasibility trials. {\it {BMJ}} 2016\string: i5239.
+\newblock \href {\doibase 10.1136/bmj.i5239} {doi: 10.1136/bmj.i5239}
+
+\bibitem{Avery2017}
+Avery KNL, Williamson PR, Gamble C, et al. Informing efficient randomised
+  controlled trials: exploration of challenges in developing progression
+  criteria for internal pilot studies. {\it {BMJ} Open} 2017\string;
+  7(2)\string: e013537.
+\newblock \href {\doibase 10.1136/bmjopen-2016-013537} {doi:
+  10.1136/bmjopen-2016-013537}
+
+\bibitem{Hampson2017}
+Hampson LV, Williamson PR, Wilby MJ, Jaki T. A framework for prospectively
+  defining progression rules for internal pilot studies monitoring recruitment.
+  {\it Statistical Methods in Medical Research} 2017\string; 0(0)\string:
+  0962280217708906.
+\newblock PMID: 28589752\href {\doibase 10.1177/0962280217708906} {doi:
+  10.1177/0962280217708906}
+
+\bibitem{Browne1995}
+Browne RH. On the use of a pilot sample for sample size determination. {\it
+  Statistics in Medicine} 1995\string; 14(17)\string: 1933--1940.
+\newblock \href {\doibase 10.1002/sim.4780141709} {doi: 10.1002/sim.4780141709}
+
+\bibitem{Julious2005}
+Julious SA. Sample size of 12 per group rule of thumb for a pilot study. {\it
+  Pharmaceutical Statistics} 2005\string; 4(4)\string: 287--291.
+\newblock \href {\doibase 10.1002/pst.185} {doi: 10.1002/pst.185}
+
+\bibitem{Sim2012}
+Sim J, Lewis M. The size of a pilot study for a clinical trial should be
+  calculated in relation to considerations of precision and efficiency. {\it
+  Journal of Clinical Epidemiology} 2012\string; 65(3)\string: 301--308.
+\newblock \href {\doibase 10.1016/j.jclinepi.2011.07.011} {doi:
+  10.1016/j.jclinepi.2011.07.011}
+
+\bibitem{Teare2014}
+Teare M, Dimairo M, Shephard N, Hayman A, Whitehead A, Walters S. Sample size
+  requirements to estimate key design parameters from external pilot randomised
+  controlled trials: a simulation study. {\it Trials} 2014\string;
+  15(1)\string: 264.
+\newblock \href {\doibase 10.1186/1745-6215-15-264} {doi:
+  10.1186/1745-6215-15-264}
+
+\bibitem{Eldridge2015}
+Eldridge SM, Costelloe CE, Kahan BC, Lancaster GA, Kerry SM. How big should the
+  pilot study for my cluster randomised trial be?. {\it Statistical Methods in
+  Medical Research} 2015.
+\newblock \href {\doibase 10.1177/0962280215588242} {doi:
+  10.1177/0962280215588242}
+
+\bibitem{Whitehead2015}
+Whitehead AL, Julious SA, Cooper CL, Campbell MJ. Estimating the sample size
+  for a pilot randomised trial to minimise the overall trial sample size for
+  the external pilot and main trial for a continuous outcome variable. {\it
+  Statistical Methods in Medical Research} 2015.
+\newblock \href {\doibase 10.1177/0962280215588241} {doi:
+  10.1177/0962280215588241}
+
+\bibitem{Viechtbauer2015}
+Viechtbauer W, Smits L, Kotz D, et al. A simple formula for the calculation of
+  sample size in pilot studies. {\it Journal of Clinical Epidemiology}
+  2015\string; 68(11)\string: 1375--1379.
+\newblock \href {\doibase 10.1016/j.jclinepi.2015.04.014} {doi:
+  10.1016/j.jclinepi.2015.04.014}
+
+\bibitem{Cooper2018}
+Cooper CL, Whitehead A, Pottrill E, Julious SA, Walters SJ. Are pilot trials
+  useful for predicting randomisation and attrition rates in definitive
+  studies: A review of publicly funded trials. {\it Clinical Trials}
+  2018\string; 0(0)\string: 1740774517752113.
+\newblock PMID: 29361833\href {\doibase 10.1177/1740774517752113} {doi:
+  10.1177/1740774517752113}
+
+\bibitem{Wilson2015}
+Wilson DT, Walwyn RE, Brown J, Farrin AJ, Brown SR. Statistical challenges in
+  assessing potential efficacy of complex interventions in pilot or feasibility
+  studies. {\it Statistical Methods in Medical Research} 2015\string;
+  25(3)\string: 997--1009.
+\newblock \href {\doibase 10.1177/0962280215589507} {doi:
+  10.1177/0962280215589507}
+
+\bibitem{OHagan2005}
+O'Hagan A, Stevens JW, Campbell MJ. Assurance in clinical trial design. {\it
+  Pharmaceutical Statistics} 2005\string; 4(3)\string: 187--201.
+\newblock \href {\doibase 10.1002/pst.175} {doi: 10.1002/pst.175}
+
+\bibitem{Crisp2018}
+Crisp A, Miller S, Thompson D, Best N. Practical experiences of adopting
+  assurance as a quantitative framework to support decision making in drug
+  development. {\it Pharmaceutical Statistics} 2018\string; 0(0).
+\newblock \href {\doibase 10.1002/pst.1856} {doi: 10.1002/pst.1856}
+
+\bibitem{Wang2002}
+Wang F, Gelfand AE. A Simulation-Based Approach to Bayesian Sample Size
+  Determination for Performance under a Given Model and for Separating Models.
+  {\it Statistical Science} 2002\string; 17(2)\string: pp. 193-208.
+
+\bibitem{Walley2015}
+Walley RJ, Smith CL, Gale JD, Woodward P. Advantages of a wholly Bayesian
+  approach to assessing efficacy in early drug development: a case study. {\it
+  Pharmaceutical Statistics} 2015\string; 14(3)\string: 205--215.
+\newblock \href {\doibase 10.1002/pst.1675} {doi: 10.1002/pst.1675}
+
+\bibitem{Keeney1976}
+Keeney RL, Raiffa H. {\it Decisions with multiple objectives: preferences and
+  value tradeoffs}.
+\newblock John Wiley \& Sons .
+\newblock 1976.
+
+\bibitem{Forster2017}
+Forster A, , Airlie J, et al. Research Exploring Physical Activity in Care
+  Homes ({REACH}): study protocol for a randomised controlled trial. {\it
+  Trials} 2017\string; 18(1).
+\newblock \href {\doibase 10.1186/s13063-017-1921-8} {doi:
+  10.1186/s13063-017-1921-8}
+
+\bibitem{Spiegelhalter2001}
+Spiegelhalter DJ. Bayesian methods for cluster randomized trials with
+  continuous responses. {\it Statistics in Medicine} 2001\string; 20(3)\string:
+  435--452.
+\newblock \href {\doibase
+  10.1002/1097-0258(20010215)20:3<435::AID-SIM804>3.0.CO;2-E} {doi:
+  10.1002/1097-0258(20010215)20:3<435::AID-SIM804>3.0.CO;2-E}
+
+\bibitem{rstan}
+{Stan Development Team} . {RStan}: the {R} interface to {Stan}. 2016.
+\newblock R package version 2.14.1.
+
+\bibitem{Lancaster2004}
+Lancaster GA, Dodd S, Williamson PR. Design and analysis of pilot studies:
+  recommendations for good practice. {\it Journal of Evaluation in Clinical
+  Practice} 2004\string; 10(2)\string: 307--312.
+\newblock \href {\doibase 10.1111/j..2002.384.doc.x} {doi:
+  10.1111/j..2002.384.doc.x}
+
+\bibitem{Arain2010}
+Arain M, Campbell M, Cooper C, Lancaster G. What is a pilot or feasibility
+  study? A review of current practice and editorial policy. {\it BMC Medical
+  Research Methodology} 2010\string; 10(1)\string: 67.
+\newblock \href {\doibase 10.1186/1471-2288-10-67} {doi:
+  10.1186/1471-2288-10-67}
+
+\bibitem{Thabane2010}
+Thabane L, Ma J, Chu R, et al. A tutorial on pilot studies: the what, why and
+  how. {\it BMC Medical Research Methodology} 2010\string; 10(1)\string: 1.
+\newblock \href {\doibase 10.1186/1471-2288-10-1} {doi: 10.1186/1471-2288-10-1}
+
+\bibitem{Lee2014}
+Lee E, Whitehead A, Jacques R, Julious S. The statistical interpretation of
+  pilot trials: should significance thresholds be reconsidered?. {\it BMC
+  Medical Research Methodology} 2014\string; 14(1)\string: 41.
+\newblock \href {\doibase 10.1186/1471-2288-14-41} {doi:
+  10.1186/1471-2288-14-41}
+
+\bibitem{Cocks2013}
+Cocks K, Torgerson DJ. Sample size calculations for pilot randomized trials: a
+  confidence intervalÂ approach. {\it Journal of Clinical Epidemiology}
+  2013\string; 66(2)\string: 197 - 201.
+\newblock \href {\doibase http://dx.doi.org/10.1016/j.jclinepi.2012.09.002}
+  {doi: http://dx.doi.org/10.1016/j.jclinepi.2012.09.002}
+
+\bibitem{Bacchetti2010}
+Bacchetti P. Current sample size conventions: Flaws, harms, and alternatives.
+  {\it BMC Medicine} 2010\string; 8(1)\string: 17.
+\newblock \href {\doibase 10.1186/1741-7015-8-17} {doi: 10.1186/1741-7015-8-17}
+
+\bibitem{Dallow2018}
+Dallow N, Best N, Montague TH. Better decision making in drug development
+  through adoption of formal prior elicitation. {\it Pharmaceutical Statistics}
+  2018\string; 0(0).
+\newblock \href {\doibase 10.1002/pst.1854} {doi: 10.1002/pst.1854}
+
+\bibitem{OHagan2006a}
+O'Hagan A, Buck CE, Daneshkhah A, et al. {\it Uncertain Judgements: Eliciting
+  Experts' Probabilities}.
+\newblock John Wiley and Sons .
+\newblock 2006.
+
+\bibitem{Sutton2007}
+Sutton AJ, Cooper NJ, Jones DR, Lambert PC, Thompson JR, Abrams KR.
+  Evidence-based sample size calculations based upon updated meta-analysis.
+  {\it Statistics in Medicine} 2007\string; 26(12)\string: 2479--2500.
+\newblock \href {\doibase 10.1002/sim.2704} {doi: 10.1002/sim.2704}
+
+\bibitem{Strong2014}
+Strong M, Oakley JE, Brennan A. Estimating Multiparameter Partial Expected
+  Value of Perfect Information from a Probabilistic Sensitivity Analysis
+  Sample. {\it Medical Decision Making} 2014\string; 34(3)\string: 311--326.
+\newblock \href {\doibase 10.1177/0272989x13505910} {doi:
+  10.1177/0272989x13505910}
+
+\bibitem{Strong2015}
+Strong M, Oakley JE, Brennan A, Breeze P. Estimating the expected value of
+  sample information using the probabilistic sensitivity analysis sample: a
+  fast, nonparametric regression-based method. {\it Medical Decision Making}
+  2015\string; 35(5)\string: 570--583.
+\newblock \href {\doibase 10.1177/0272989x15575286} {doi:
+  10.1177/0272989x15575286}
+
+\bibitem{Jones2001}
+Jones DR. A Taxonomy of Global Optimization Methods Based on Response Surfaces.
+  {\it Journal of Global Optimization} 2001\string; 21(4)\string: 345-383.
+\newblock \href {\doibase 10.1023/A:1012771025575} {doi:
+  10.1023/A:1012771025575}
+
+\bibitem{Roustant2012}
+Roustant O, Ginsbourger D, Deville Y. {DiceKriging}, {DiceOptim}: Two {R}
+  Packages for the Analysis of Computer Experiments by Kriging-Based
+  Metamodeling and Optimization. {\it Journal of Statistical Software}
+  2012\string; 51(1)\string: 1--55.
+
+\bibitem{French2000}
+French S, Insua DR. {\it Statistical Decision Theory}.
+\newblock No.~9 in Kendall's Library of StatisticsOxford University Press .
+\newblock 2000.
+
+\bibitem{Lindley1997}
+Lindley DV. The choice of sample size. {\it Journal of the Royal Statistical
+  Society: Series D (The Statistician)} 1997\string; 46(2)\string: 129--138.
+\newblock \href {\doibase 10.1111/1467-9884.00068} {doi:
+  10.1111/1467-9884.00068}
+
+\bibitem{Joseph1997a}
+Joseph L, Wolfson DB. Interval-based versus decision theoretic criteria for the
+  choice of sample size. {\it Journal of the Royal Statistical Society: Series
+  D (The Statistician)} 1997\string; 46(2)\string: 145--149.
+\newblock \href {\doibase 10.1111/1467-9884.00070} {doi:
+  10.1111/1467-9884.00070}
+
+\bibitem{Bacchetti2008}
+Bacchetti P, McCulloch CE, Segal MR. Simple, Defensible Sample Sizes Based on
+  Cost Efficiency. {\it Biometrics} 2008\string; 64(2)\string: 577--585.
+\newblock \href {\doibase 10.1111/j.1541-0420.2008.01004\_1.x} {doi:
+  10.1111/j.1541-0420.2008.01004\_1.x}
+
+\bibitem{Whitehead2008}
+Whitehead J, Vald{\'{e}}s-M{\'{a}}rquez E, Johnson P, Graham G. Bayesian sample
+  size for exploratory clinical trials incorporating historical data. {\it
+  Statistics in Medicine} 2008\string; 27(13)\string: 2307--2327.
+\newblock \href {\doibase 10.1002/sim.3140} {doi: 10.1002/sim.3140}
+
+\bibitem{Stallard2012}
+Stallard N. Optimal sample sizes for phase {II} clinical trials and pilot
+  studies. {\it Statistics in Medicine} 2012\string; 31(11-12)\string:
+  1031--1042.
+\newblock \href {\doibase 10.1002/sim.4357} {doi: 10.1002/sim.4357}
+
+\bibitem{Goette2015}
+Götte H, Schüler A, Kirchner M, Kieser M. Sample size planning for phase {II}
+  trials based on success probabilities for phase {III}. {\it Pharmaceutical
+  Statistics} 2015\string; 14(6)\string: 515--524.
+\newblock \href {\doibase 10.1002/pst.1717} {doi: 10.1002/pst.1717}
+
+\bibitem{Kirchner2015}
+Kirchner M, Kieser M, Götte H, Schüler A. Utility-based optimization of phase
+  {II}/{III} programs. {\it Statist. Med.} 2015\string; 35(2)\string: 305--316.
+\newblock \href {\doibase 10.1002/sim.6624} {doi: 10.1002/sim.6624}
+
+\end{thebibliography}
