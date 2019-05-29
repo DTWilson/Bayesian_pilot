@@ -16,19 +16,14 @@ require(mco)
 require(lhs)
 require(reshape2)
 require(RColorBrewer)
+require(xtable)
 cols <- brewer.pal(8, "Dark2")
 set.seed(87450)
 ```
 
-```{Rcpp}
-#include <Rcpp.h>
-using namespace Rcpp;
+## Introduction
 
-// [[Rcpp::export]]
-NumericVector timesTwo(NumericVector x) {
-  return x * 2;
-}
-```
+This RMarkdown document contains the R code which generates the results and figures included in the manuscript of the same name, plus supplementary material.
 
 ## Example 1 - TIGA-CUB
 
@@ -155,7 +150,7 @@ using namespace Rcpp;
 NumericMatrix get_ocs_cpp(NumericMatrix df, int n, double c, NumericVector an_pri, double f_c, double a_c)
 {
   int rows = df.nrow();
-  NumericMatrix results(rows, 2);
+  NumericMatrix results(rows, 4);
   for(int i=0; i<rows; i++){
     double phi_f = df(i,0);
     double phi_a = df(i,1);
@@ -167,6 +162,8 @@ NumericMatrix get_ocs_cpp(NumericMatrix df, int n, double c, NumericVector an_pr
     int green = 1;
     if(phi_f < f_c || phi_a < a_c) green = 0;
     results(i,1) = green;
+    results(i,2) = f;
+    results(i,3) = a;
   }
   return results;
 }
@@ -177,9 +174,10 @@ get_ocs2 <- function(c, n, N, f_c, a_c, des_pri, an_pri=des_pri)
 {
   #set.seed(108325)
   df <- data.frame(p_f = rbeta(N, des_pri[1], des_pri[2]), p_a = rbeta(N, des_pri[3], des_pri[4]))
-  #print(head(df))
+  print(head(df))
   r <- get_ocs_cpp(as.matrix(df), n, c, an_pri, f_c, a_c)
   #print(head(r))
+  print(summary(r))
   
   c(sum((r[,1] > c)[!as.logical(r[,2])])/N, sum((r[,1] < c)[as.logical(r[,2])])/N)
 }
@@ -719,7 +717,7 @@ proc.time() - ptm
 ```
 
 The Stan files are of the same form but with different analysis priors, as described previously. The weakly informative model is as follows:
-```{stan, output.var="ex1"}
+```{stan, output.var="ex1", eval=F}
 data {
   int<lower=0> K;  // # of clusters
   real<lower=0> M[K]; // # array of cluster sizes
@@ -804,7 +802,7 @@ Next, we load the results of the nested MC analysis. Note here that we carried o
 
 Now we estimate the operating characteristics for each loss parameter vector, discard all those which are dominated, and plot the results.
 
-```{r, eval=F}
+```{r, eval=T}
 get_decision <- function(probs, r)
 {
   # r = loss paramaters c(c_1, c_2, c_3)

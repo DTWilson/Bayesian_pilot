@@ -124,6 +124,11 @@ Walley RJ, Smith CL, Gale JD, Woodward P. Advantages of a wholly Bayesian
   Pharmaceutical Statistics} 2015\string; 14(3)\string: 205--215.
 \newblock \href {\doibase 10.1002/pst.1675} {doi: 10.1002/pst.1675}
 
+\bibitem{French2000}
+French S, Insua DR. {\it Statistical Decision Theory}.
+\newblock No.~9 in Kendall's Library of StatisticsOxford University Press .
+\newblock 2000.
+
 \bibitem{Keeney1976}
 Keeney RL, Raiffa H. {\it Decisions with multiple objectives: preferences and
   value tradeoffs}.
@@ -148,39 +153,6 @@ Spiegelhalter DJ. Bayesian methods for cluster randomized trials with
 \bibitem{rstan}
 {Stan Development Team} . {RStan}: the {R} interface to {Stan}. 2016.
 \newblock R package version 2.14.1.
-
-\bibitem{Lancaster2004}
-Lancaster GA, Dodd S, Williamson PR. Design and analysis of pilot studies:
-  recommendations for good practice. {\it Journal of Evaluation in Clinical
-  Practice} 2004\string; 10(2)\string: 307--312.
-\newblock \href {\doibase 10.1111/j..2002.384.doc.x} {doi:
-  10.1111/j..2002.384.doc.x}
-
-\bibitem{Arain2010}
-Arain M, Campbell M, Cooper C, Lancaster G. What is a pilot or feasibility
-  study? A review of current practice and editorial policy. {\it BMC Medical
-  Research Methodology} 2010\string; 10(1)\string: 67.
-\newblock \href {\doibase 10.1186/1471-2288-10-67} {doi:
-  10.1186/1471-2288-10-67}
-
-\bibitem{Thabane2010}
-Thabane L, Ma J, Chu R, et al. A tutorial on pilot studies: the what, why and
-  how. {\it BMC Medical Research Methodology} 2010\string; 10(1)\string: 1.
-\newblock \href {\doibase 10.1186/1471-2288-10-1} {doi: 10.1186/1471-2288-10-1}
-
-\bibitem{Lee2014}
-Lee E, Whitehead A, Jacques R, Julious S. The statistical interpretation of
-  pilot trials: should significance thresholds be reconsidered?. {\it BMC
-  Medical Research Methodology} 2014\string; 14(1)\string: 41.
-\newblock \href {\doibase 10.1186/1471-2288-14-41} {doi:
-  10.1186/1471-2288-14-41}
-
-\bibitem{Cocks2013}
-Cocks K, Torgerson DJ. Sample size calculations for pilot randomized trials: a
-  confidence intervalÂ approach. {\it Journal of Clinical Epidemiology}
-  2013\string; 66(2)\string: 197 - 201.
-\newblock \href {\doibase http://dx.doi.org/10.1016/j.jclinepi.2012.09.002}
-  {doi: http://dx.doi.org/10.1016/j.jclinepi.2012.09.002}
 
 \bibitem{Bacchetti2010}
 Bacchetti P. Current sample size conventions: Flaws, harms, and alternatives.
@@ -232,10 +204,12 @@ Roustant O, Ginsbourger D, Deville Y. {DiceKriging}, {DiceOptim}: Two {R}
   Metamodeling and Optimization. {\it Journal of Statistical Software}
   2012\string; 51(1)\string: 1--55.
 
-\bibitem{French2000}
-French S, Insua DR. {\it Statistical Decision Theory}.
-\newblock No.~9 in Kendall's Library of StatisticsOxford University Press .
-\newblock 2000.
+\bibitem{Lancaster2004}
+Lancaster GA, Dodd S, Williamson PR. Design and analysis of pilot studies:
+  recommendations for good practice. {\it Journal of Evaluation in Clinical
+  Practice} 2004\string; 10(2)\string: 307--312.
+\newblock \href {\doibase 10.1111/j..2002.384.doc.x} {doi:
+  10.1111/j..2002.384.doc.x}
 
 \bibitem{Lindley1997}
 Lindley DV. The choice of sample size. {\it Journal of the Royal Statistical
