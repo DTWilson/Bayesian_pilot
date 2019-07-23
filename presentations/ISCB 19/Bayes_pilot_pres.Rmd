@@ -1,0 +1,529 @@
+---
+title: "Bayesian design and analysis of external pilot trials for complex interventions"
+author: Duncan T. Wilson, Rebecca E.A. Walwyn, James Wason, Julia Borwn, Amanda J. Farrin
+date: "July 17, 2019"
+output: 
+  powerpoint_presentation:
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.width=5, fig.height=3, out.width="90%", out.height="70%", echo=F)
+require(ggplot2)
+require(Rcpp)
+require(invgamma)
+require(gridExtra)
+require(rstan)
+require(mco)
+require(lhs)
+require(reshape2)
+require(RColorBrewer)
+require(xtable)
+require(knitr)
+#require(kableExtra)
+cols <- brewer.pal(8, "Dark2")
+set.seed(87450)
+```
+
+## External pilot trials
+
+$\{\text{Pilot trials}\} \subset \{\text{Feasibility studies}\}$ (Eldridge et al., 2016)
+
+A small version of the planned main study.
+
+Asking the questions:  _should_ we do the main trial, and if so, _how_?
+
+Common quantitative objectives: estimating recruitment rates, follow-up rates, and adherence rates (Avery et al., 2017).
+
+## Example - REACH
+
+REACH (Research Exploring Physical Activity in Care Homes): a pilot for a complex intervention designed to increase the physical activity of care home residents.
+
+Feasibility outcomes:
+
+- **Recruitment** (measured in terms of the average number of residents in each care home who participate in the trial); 
+- **Adherence** (a binary indicator at the care home level indicating if the intervention was fully implemented); 
+- **Follow-up** (a binary indicator for each resident of successful follow-up at the planned primary outcome time of 12 months); 
+- **Efficacy** (a continuous measure of physical activity at the resident level).
+
+## Example - REACH
+
+Cluster randomised, with 6 care homes per arm.
+
+Progressing to the definitive trial if the _progression criteria_ are satisfied:
+
+```{r, echo=F, results = 'asis'}
+df <- data.frame(Outcome = c("Recruitment", "Follow-up", "Adherence"),
+                 Red = c("Less than 8", "Less than 50%", "Less than 65%"),
+                 Amber = c("Between 8 and 10", "Between 50 and 75%", "Between 65 and 75%"),
+                 GReen = c("At least 10", "At least 75%", "At least 75%"))
+kable(df)
+```
+
+
+- Any _red_ $\Rightarrow$ stop
+- All _green_ $\Rightarrow$ go
+- Otherwise, modify and then go
+
+## Motivation
+
+Can we better formalise how to make decisions after pilot trials? Challenges:
+
+- 3 decision options, stop / modify / go.
+- Several attributes of interest, with trade-offs between them.
+- Complex, small sample models with uncertain nuisance parameters (e.g. an ICC)
+
+$\rightarrow$ Bayesian approach
+
+Questions:
+
+- How should we make progression decisions after a Bayesain analysis?
+- How can we evaluate a Bayesain pilot design and choose its sample size?
+
+## Hypotheses
+
+Identify areas of the parameter space where we would ideally like to _stop_ (R), _modify_ (A), or _go_ (G):
+
+```{r}
+p_sample <- function()
+{
+  # Generate a sample from the joint prior
+  
+  # variance in cluster size (note using factor of k=12)
+  alpha <- 20; beta <- 39; nu <- 6; mu0 <- 10
+  cl_var <- rinvgamma(1, shape=alpha, rate=beta)
+  # mean cluster size
+  cl_m <- rnorm(1, mu0, sqrt(cl_var/nu))
+  
+  # adherance probability
+  ad_m <- 0.9; ad_n <- 30
+  ad <- rbeta(1, ad_m*(ad_n+2), (ad_n+2)*(1-ad_m))
+  
+  # follow-up probability
+  fu_m <- 0.7; fu_n <- 30
+  fu <- rbeta(1, fu_m*(fu_n+2), (fu_n+2)*(1-fu_m))
+  
+  # effect size
+  # follow Spiegelhalter 2001 and assume the ICC and the between-patient variance are independant,
+  # putting priors on each of these.
+  # ICC
+  rho_m <- 0.05; rho_n <- 30
+  rho <- rbeta(1, rho_m*(rho_n+2), (rho_n+2)*(1-rho_m))
+  # between patient variance, inverse gamme
+  var_w <- rinvgamma(1, shape=50, rate=45)
+  # effect
+  eff <- rnorm(1, 0.2, 0.1)
+  
+  return(c(cl_var, cl_m, ad, fu, rho, var_w, eff))
+}
+
+draw_hyp <- function(z, lim, df)
+{
+  # Draw a 2-D hypotheses and overlay with prior samples
+  
+  # z = vector of boundary points, in order as specified below
+  # lim = matrix of limits
+  # df = prior sample
+  
+  x_ra <- z[1]; x_ag <- z[2]
+  y_ra <- z[3]; y_ag <- z[4]
+  x_ra_c1 <- z[5]; y_ra_c1 <- z[6] 
+  x_ra_c2 <- z[7]; y_ra_c2 <- z[8] 
+  x_ag_c1 <- z[9]; y_ag_c1 <- z[10] 
+  x_ag_c2 <- z[11]; y_ag_c2 <- z[12] 
+  
+  df_polr <- data.frame(x=c(lim[1,1], lim[1,1], x_ra, x_ra_c1, x_ra_c2, lim[1,2], lim[1,2]), 
+                        y=c(lim[2,1], lim[2,2], lim[2,2], y_ra_c1, y_ra_c2, y_ra, lim[2,1]),t=-1)
+  
+  df_pola <- data.frame(x=c(x_ra, x_ag, x_ag_c1, x_ag_c2, lim[1,2], lim[1,2], 
+                            x_ra_c2, x_ra_c1), 
+                        y=c(lim[2,2], lim[2,2], y_ag_c1, y_ag_c2, y_ag, y_ra,
+                            y_ra_c2, y_ra_c1),t=0)
+  
+  df_polg <- data.frame(x=c(x_ag, x_ag_c1, x_ag_c2, lim[1,2], lim[1,2]), 
+                        y=c(lim[2,2], y_ag_c1, y_ag_c2, y_ag, lim[2,2]),t=1)
+  
+  p <- ggplot(df, aes(x, y)) + 
+    geom_polygon(data=df_polr, alpha=0.2, aes(fill=as.factor(t))) +
+    geom_polygon(data=df_pola, alpha=0.2, aes(fill=as.factor(t))) +
+    geom_polygon(data=df_polg, alpha=0.2, aes(fill=as.factor(t))) +
+    #geom_point(alpha=0.1) +
+    scale_fill_manual(name="Hypothesis",
+                      labels=c("R", "A", "G"),
+                      values=c("red3", "darkorange2", "green4")) +
+    theme_minimal()
+  
+  return(p)
+}
+
+
+# Get some prior samples
+df <- data.frame(t(replicate(1000, p_sample()))) # c(cl_var, cl_m, ad, fu, rho, var_w, eff))
+
+# Follow up and cluster size
+
+# Define the marginal boundaries
+fu_ra <- 0.6; fu_ag <- 0.66666667
+cl_ra <- 5; cl_ag <- 7
+
+# Define the combined boundary points
+fu_ra_c1 <- 0.6; cl_ra_c1 <- 11
+fu_ra_c2 <- 1; cl_ra_c2 <- 5
+fu_ag_c1 <- 0.66666667; cl_ag_c1 <- 12
+fu_ag_c2 <- 1; cl_ag_c2 <- 7
+
+z <- c(fu_ra, fu_ag, cl_ra, cl_ag,
+       fu_ra_c1, cl_ra_c1,
+       fu_ra_c2, cl_ra_c2,
+       fu_ag_c1, cl_ag_c1,
+       fu_ag_c2, cl_ag_c2)
+
+lim <- matrix(c(0.3, 1, 5, 15), ncol=2, byrow = T)
+
+df2 <- df[,c(4,2)]
+names(df2) <- c("x", "y")
+
+# Draw plot
+p <- draw_hyp(z, lim, df2)
+p + ylab("Cluster size") + xlab("Follow-up rate")
+```
+
+## Loss
+
+Three types of errors:
+
+- $E_1$: proceeding to a futile trial
+- $E_2$: discarding a promising intervention
+- $E_3$: needlessly modifying the intervention or trial design
+
+The loss depeneds on which errors occur, which depends on the decision $d$ and the hypothesis which $\phi$ lies in.
+
+$$
+L(d, \phi) = c_1 E_1(d, \phi) + c_2 E_2(d, \phi) + c_3 E_3(d, \phi).
+$$
+3 descisions and 3 hypotheses $\Rightarrow$ 9 possible loss outcomes:
+
+```{r, echo=F, results='asis'}
+df <- data.frame(Decision = c("$r$", "$a$", "$g$"),
+                 Red = c("0", "$c_1 + c_3$", "$c_1$"),
+                 Amber = c("$c_2$", "0", "$c_1 + c_2$"),
+                 Green = c("$c_2$", "$c_3$", "0"))
+
+kable(df, align=c("r", "c", "c", "c"),
+      col.names = c("Decision", "$\\phi \\in \\Phi_R$", "$\\phi \\in \\Phi_A$", "$\\phi \\in \\Phi_G$"))
+
+#add_header_above(kable_styling(kable(df, align=c("r", "c", "c", "c"), booktabs=T)), c(" " = 1, "Hypothesis" = 3))
+```
+
+## Expected loss
+
+After seeing the pilot data $x$, we choose the action with the best expected loss:
+
+$$
+\begin{align}
+i^{*} & = \arg\min_{i \in \{r,a,g\}} \mathbb{E}_{\phi | x} [ L(i, \phi) ].
+\end{align}
+$$
+Let $p_I = Pr[\phi \in \Phi_I \mid x]$, i.e. the posterior probability of hypothesis $I$, given the pilot data. Then,
+
+$$
+\begin{aligned}
+\mathbb{E}_{\phi | x} [ L(r, \phi) ] & = (p_{A} + p_{G})c_{3}, \\
+\mathbb{E}_{\phi | x} [ L(a, \phi) ] & = p_{R}c_{1} + (p_{R} + p_{G})c_{2}, \\
+\mathbb{E}_{\phi | x} [ L(g, \phi) ] & = (p_{R} + p_{A})c_{1} + p_{A}c_{3}.
+\end{aligned}
+$$
+So, given cost parameters $c_1, c_2, c_3$ we can make progression decisions after a Bayesian analysis.
+
+## Operating characteristics and optimisation
+
+Define three pilot trial operating characteristics: 
+
+- $OC_1(\mathbf{c})$: probability of proceeding to an infeasible RCT
+- $OC_2(\mathbf{c})$: probability of discarding a promising intervention
+- $OC_3(\mathbf{c})$: probability of making unnecessary adjustments to the intervention or the trial design
+
+We want to find costs $(\mathbf{c})$ which minimise these three conflicting objectibes.
+
+Solve the multi-objective optimisation problem
+$$
+\min_{\mathbf{c} \in \mathcal{C}} ~ \left( OC_{1}(\mathbf{c}),~ OC_{2}(\mathbf{c}),~ OC_{3}(\mathbf{c}) \right)
+$$
+where $\mathcal{C} = \{c_{1}, c_{2} \in [0,1] ~|~ c_{1} + c_{2} \leq 1\}$. 
+
+$\rightarrow$ a set of options for the cost parameters, offering different trade-offs between the three operating characteristics.
+
+## Computation
+
+A simple, but computationally expensive, nested Monte Carlo algorithm:
+
+- **for** $j = 1, 2, \ldots , N$ **do**
+    + sample parameters $\phi^{(j)} \sim p(\phi)$
+    + sample pilot data $x \sim p(x \mid \phi)$
+    + **for** $k = 1, 2, \ldots , M$ **do**
+        * sample posterior $\phi^{(k,j)} \sim p(\phi \mid x^{(j)})$
+    + estimate $p_I^{(j)} \approx \frac{1}{M}\sum_{k=1}^{M} I[\phi^{(k,j)} \in \Phi_I]$ for $I = R, A, G$
+    + get progression descision $i^{(j)}$ based on $\mathbf{c}$ and $p_R^{(j)}, p_A^{(j)}, p_G^{(j)}$
+- estimate operating characteristics, e.g. $OC_1(\mathbf{c}) \approx \frac{1}{N} \sum_{j=1}^{N} I[i^{(j)} = a ~\&~ \phi^{(j)} \in \Phi_R] + I[i^{(j)} = g ~\&~ \phi^{(j)} \in \Phi_R \cup \Phi_A]$
+
+(Note that when optimising over cost parameters $\mathbf{c}$, we only need to generate one set of $N$ posterior probability samples)
+
+## Application
+
+```{r}
+draw_hyp <- function(z, lim, df)
+{
+  # Draw a 2-D hypotheses and overlay with prior samples
+  
+  # z = vector of boundary points, in order as specified below
+  # lim = matrix of limits
+  # df = prior sample
+  
+  x_ra <- z[1]; x_ag <- z[2]
+  y_ra <- z[3]; y_ag <- z[4]
+  x_ra_c1 <- z[5]; y_ra_c1 <- z[6] 
+  x_ra_c2 <- z[7]; y_ra_c2 <- z[8] 
+  x_ag_c1 <- z[9]; y_ag_c1 <- z[10] 
+  x_ag_c2 <- z[11]; y_ag_c2 <- z[12] 
+  
+  df_polr <- data.frame(x=c(lim[1,1], lim[1,1], x_ra, x_ra_c1, x_ra_c2, lim[1,2], lim[1,2]), 
+                        y=c(lim[2,1], lim[2,2], lim[2,2], y_ra_c1, y_ra_c2, y_ra, lim[2,1]),t=-1)
+  
+  df_pola <- data.frame(x=c(x_ra, x_ag, x_ag_c1, x_ag_c2, lim[1,2], lim[1,2], 
+                            x_ra_c2, x_ra_c1), 
+                        y=c(lim[2,2], lim[2,2], y_ag_c1, y_ag_c2, y_ag, y_ra,
+                            y_ra_c2, y_ra_c1),t=0)
+  
+  df_polg <- data.frame(x=c(x_ag, x_ag_c1, x_ag_c2, lim[1,2], lim[1,2]), 
+                        y=c(lim[2,2], y_ag_c1, y_ag_c2, y_ag, lim[2,2]),t=1)
+  
+  p <- ggplot(df, aes(x, y)) + 
+    geom_polygon(data=df_polr, alpha=0.2, aes(fill=as.factor(t))) +
+    geom_polygon(data=df_pola, alpha=0.2, aes(fill=as.factor(t))) +
+    geom_polygon(data=df_polg, alpha=0.2, aes(fill=as.factor(t))) +
+    geom_point(alpha=0.1) +
+    scale_fill_manual(name="Hypothesis",
+                      labels=c("R", "A", "G"),
+                      values=c("red3", "darkorange2", "green4")) +
+    theme_minimal()
+  
+  return(p)
+}
+
+df <- data.frame(t(replicate(1000, p_sample()))) # c(cl_var, cl_m, ad, fu, rho, var_w, eff))
+
+# Follow up and cluster size
+
+# Define the marginal boundaries
+fu_ra <- 0.6; fu_ag <- 0.66666667
+cl_ra <- 5; cl_ag <- 7
+
+# Define the combined boundary points
+fu_ra_c1 <- 0.6; cl_ra_c1 <- 11
+fu_ra_c2 <- 1; cl_ra_c2 <- 5
+fu_ag_c1 <- 0.66666667; cl_ag_c1 <- 12
+fu_ag_c2 <- 1; cl_ag_c2 <- 7
+
+z <- c(fu_ra, fu_ag, cl_ra, cl_ag,
+       fu_ra_c1, cl_ra_c1,
+       fu_ra_c2, cl_ra_c2,
+       fu_ag_c1, cl_ag_c1,
+       fu_ag_c2, cl_ag_c2)
+
+lim <- matrix(c(0.3, 1, 5, 15), ncol=2, byrow = T)
+
+df2 <- df[,c(4,2)]
+names(df2) <- c("x", "y")
+
+# Draw plot
+p <- draw_hyp(z, lim, df2)
+p1 <- p + ylab("Cluster size") + xlab("Follow-up")
+
+# Efficacy and adherance
+
+# Define the marginal boundaries
+eff_ra <- 0.1; eff_ag <- 0.1
+ad_ra <- 0.5; ad_ag <- 0.6
+
+# Define the combined boundary points
+eff_ra_c1 <- 0.1; ad_ra_c1 <- 0.9
+eff_ra_c2 <- 0.8; ad_ra_c2 <- 0.5
+eff_ag_c1 <- 0.1; ad_ag_c1 <- 1
+eff_ag_c2 <- 0.8; ad_ag_c2 <- 0.6
+
+z <- c(eff_ra, eff_ag, ad_ra, ad_ag,
+       eff_ra_c1, ad_ra_c1,
+       eff_ra_c2, ad_ra_c2,
+       eff_ag_c1, ad_ag_c1,
+       eff_ag_c2, ad_ag_c2)
+
+lim <- matrix(c(-0.5, 1, 0.5, 1), ncol=2, byrow = T)
+
+df3 <- df[,c(7,3)]
+names(df3) <- c("x", "y")
+
+# Draw plot
+p <- draw_hyp(z, lim, df3)
+p2 <- p + ylab("Adherence") + xlab("Efficacy")
+
+p2
+```
+
+## Optimisation
+
+
+```{r}
+set.seed(10821)
+d <- as.data.frame(maximinLHS(500, 2)); names(d) <- c("c1", "c2")
+d <- d[(d$c1+d$c2)<1,]
+
+rs <- readRDS("rs.Rda")
+
+# Filter out dominated parameters
+pf_r <- paretoFilter(rs[,1:3])
+
+df <- as.data.frame(cbind(rs[row.names(pf_r),], d[row.names(pf_r),]))
+names(df) <- c("OC1", "OC2", "OC3", "Eu", "c1", "c2")
+
+shift <- 0.02
+# vector of solution indices to highlight
+hi <- c(29,18,103) # for exp_1_12
+
+ggplot(df, aes(OC2, OC1, colour=OC3)) + geom_point() + 
+  scale_color_gradientn(colours = rainbow(5)) + theme_minimal() +
+  coord_fixed() +
+  geom_point(data=df[hi,], colour="black", size=2) +
+  annotate("text", x = df[hi[1],"OC2"]+shift, y = df[hi[1],"OC1"]+shift, label = "a") +
+  annotate("text", x = df[hi[2],"OC2"]+shift, y = df[hi[2],"OC1"]+shift, label = "b") +
+  annotate("text", x = df[hi[3],"OC2"]+shift, y = df[hi[3],"OC1"]+shift, label = "c") +
+  ylab(expression(paste(OC[1]," - futile trial"))) + 
+  xlab(expression(paste(OC[2]," - discarded intervention"))) +
+  labs(colour = expression(OC[3]))
+```
+
+Because we have a 2-D space $\mathcal{C} = \{c_{1}, c_{2} \in [0,1] ~|~ c_{1} + c_{2} \leq 1\}$, we do a simple grid search. Evaluating 254 cost parameters, 62 were found to be dominated in the Pareto sense.
+
+## Example cost parameters
+
+```{r}
+tab <- df[hi,]
+
+N <- 10^4
+
+tab$OC1_se <- sqrt(tab$OC1*(1-tab$OC1)/N)
+tab$OC2_se <- sqrt(tab$OC2*(1-tab$OC2)/N)
+tab$OC3_se <- sqrt(tab$OC3*(1-tab$OC3)/N)
+
+tab <- round(tab,3)
+tab[,5:6] <- round(tab[,5:6], 2)
+
+tab2 <- data.frame(Label = c("a", "b", "c"),
+                   cs = apply(tab, 1, function(x) 
+                     paste0("(", x[5], ", ", 1-x[5]-x[6], ", ", x[6], ")")),
+                   OC1 = apply(tab, 1, function(x)
+                     paste0(x[1], " (", x[7], ")")),
+                   OC2 = apply(tab, 1, function(x)
+                     paste0(x[2], " (", x[8], ")")),
+                   OC3 = apply(tab, 1, function(x)
+                     paste0(x[3], " (", x[9], ")"))
+)
+
+colnames(tab2) <- c("Label", "$(c_1, c_2, c_3)$", "$OC_1$", "$OC_2$", "$OC_3$")
+kable(tab2, align = c("r", "l", "l", "l", "l"), row.names = F)
+#print(xtable(tab2), booktabs = T, include.rownames = F, sanitize.text.function = function(x) {x}, floating = F)
+```
+
+
+
+## Sample size
+
+For cost parameters $c_1 = 0.07, c_2 = 0.9, c_3 = 0.03$ and pilot sample size of $3, 6, 9$ per arm (bars indicate 95\% CIs):
+
+```{r}
+get_decision <- function(probs, r)
+{
+  # r = loss paramaters c(c_1, c_2, c_3)
+  # probs = posterior probabilities (p_R, p_G)
+  
+  u_r <- (1-sum(probs))*r[3] + probs[2]*r[3]
+  u_a <- probs[1]*r[1] + probs[1]*r[2] + probs[2]*r[2]
+  u_g <- probs[1]*r[1] + (1-sum(probs))*r[1] + (1-sum(probs))*r[3]
+
+  return(which.min(c(u_r,u_a,u_g))-2)
+}
+
+get_objectives <- function(rule, res)
+{
+  rule <- c(rule, 1-sum(rule))
+  # rule = loss parameters (c_1, c_2, c_3)
+  
+  # Get the decisions for each simulated data set and posterior analysis
+  dec <- apply(res[,c("pr", "pg")], 1, get_decision, r=rule)
+  res$dec <- dec
+  
+  # Calculate the proportion of samples in each decision x hypothesis cell
+  n <- nrow(res)
+  p_0m1 <- nrow(res[res$dec==0 & res$a == -1,])/n
+  p_1m1 <- nrow(res[res$dec==1 & res$a == -1,])/n
+  p_10 <- nrow(res[res$dec==1 & res$a == 0,])/n
+  p_01 <- nrow(res[res$dec==0 & res$a == 1,])/n
+  p_m10 <- nrow(res[res$dec==-1 & res$a == 0,])/n
+  p_m11 <- nrow(res[res$dec==-1 & res$a == 1,])/n
+  
+  # Get operating characteristics
+  # i) Futile trial
+  OC1 <-  p_0m1 + p_1m1 + p_10
+  # ii) Discarding a promising intervention
+  OC2 <-  p_m10 + p_m11 + p_10
+  # iii) Unnecesary adjustments
+  OC3 <-  p_0m1 + p_01
+  # Expected loss
+  EL <- rule[3]*p_m10 + rule[3]*p_m11 +
+        (rule[1]+rule[2])*p_0m1 + rule[2]*p_01 +
+        rule[1]*p_1m1 + (rule[1]+rule[3])*p_10
+  
+  return(c(OC1, OC2, OC3, EL))
+}
+
+cs <- c(0.068745599, 0.1161506696)
+cs <- c(0.07299686, 0.03273508)
+
+df <- NULL
+for(k in c(6, 12, 18)){
+  df <- rbind(df, c(k/2, get_objectives(cs, res=readRDS(paste0("./../../data/exp_1_",k,".Rda")))))
+}
+df <- as.data.frame(df)
+names(df) <- c("k", "OC1", "OC2", "OC3", "EL")
+df <- melt(df, "k")
+df$se <- sqrt(df$value*(1-df$value)/10000)
+
+# Add a horizontal jitter
+pd <- position_dodge(0.4)
+
+ggplot(df[df$variable != "EL",], aes(k, value, colour=variable)) + 
+  geom_point(position = pd) + geom_line(position = pd) +
+  geom_errorbar(aes(ymin=value-qnorm(0.975)*se, ymax=value+qnorm(0.975)*se), width=.2, position = pd) +
+  scale_color_manual(name="", values = cols) +
+  theme_minimal() +
+  ylab("Probability") + xlab("No. clusters per arm")
+```
+
+
+## Discussion
+
+Implications:
+
+- Bayesian approach can accomodate trade-offs and parameter uncertainty
+- The proposed method provides a way to formally assess pilot trial sample size
+- We can start assessing effectivenss using this approach, and thus avoid many futile definitive trials
+
+Limitations:
+
+- Need a lot of extra input from the people designing the trial - hypotheses and priors
+- Computation is slow when out of a conjugate setting - makes sample size choice difficult to evaluate
+- Pre-specifying an amber region might be difficult
+- Piecewise constant loss function keeps things simple, but is unrealistic
+
+
+# Thank you | \@DTWilson, D.T.Wilson@leeds.ac.uk, https://github.com/DTWilson/Bayesian_pilot
+

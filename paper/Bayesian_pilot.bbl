@@ -154,6 +154,19 @@ Spiegelhalter DJ. Bayesian methods for cluster randomized trials with
 {Stan Development Team} . {RStan}: the {R} interface to {Stan}. 2016.
 \newblock R package version 2.14.1.
 
+\bibitem{Jung2004}
+Jung SH, Lee T, Kim KM, George SL. Admissible two-stage designs for phase {II}
+  cancer clinical trials. {\it Statistics in Medicine} 2004\string;
+  23(4)\string: 561--569.
+\newblock \href {\doibase 10.1002/sim.1600} {doi: 10.1002/sim.1600}
+
+\bibitem{Mander2012}
+Mander AP, Wason JM, Sweeting MJ, Thompson SG. Admissible two-stage designs for
+  phase {II} cancer clinical trials that incorporate the expected sample size
+  under the alternative hypothesis. {\it Pharmaceutical Statistics}
+  2012\string; 11(2)\string: 91--96.
+\newblock \href {\doibase 10.1002/pst.501} {doi: 10.1002/pst.501}
+
 \bibitem{Bacchetti2010}
 Bacchetti P. Current sample size conventions: Flaws, harms, and alternatives.
   {\it BMC Medicine} 2010\string; 8(1)\string: 17.
@@ -241,6 +254,12 @@ Stallard N. Optimal sample sizes for phase {II} clinical trials and pilot
   studies. {\it Statistics in Medicine} 2012\string; 31(11-12)\string:
   1031--1042.
 \newblock \href {\doibase 10.1002/sim.4357} {doi: 10.1002/sim.4357}
+
+\bibitem{Wason2013}
+Wason JMS, Jaki T, Stallard N. Planning multi-arm screening studies within the
+  context of a drug developmentâ€‰program. {\it Statistics in Medicine}
+  2013\string; 32(20)\string: 3424--3435.
+\newblock \href {\doibase 10.1002/sim.5787} {doi: 10.1002/sim.5787}
 
 \bibitem{Goette2015}
 Götte H, Schüler A, Kirchner M, Kieser M. Sample size planning for phase {II}

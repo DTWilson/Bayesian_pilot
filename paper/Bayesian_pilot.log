@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2019.3.21)  29 MAY 2019 11:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2019.3.21)  23 JUL 2019 11:29
 entering extended mode
 **./Bayesian_pilot.tex
 (Bayesian_pilot.tex
@@ -1248,122 +1248,123 @@ LaTeX Font Info:    Try loading font information for TS1+stix on input line 93.
 (C:\Users\meddwilb\AppData\Roaming\MiKTeX\2.9\tex\latex\stix\ts1stix.fd
 File: ts1stix.fd 2015/04/17 v1.1.2-latex STIX TS1 font definitions
 )
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <7> not available
 (Font)              Font shape `T1/stix/b/n' tried instead on input line 95.
-
-[2]
+ [2]
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <10.03749> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 107.
- [3]
-LaTeX Font Info:    Calculating math sizes for size <7.5> on input line 150.
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 119.
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--151
+[3]
+LaTeX Font Info:    Calculating math sizes for size <7.5> on input line 162.
+
+Underfull \hbox (badness 10000) in paragraph at lines 162--163
 []\T1/stix/m/n/10.03749 These oper-at-ing char-ac-ter-is-tics can be esti-mated
  using sim-u-la-tion. First, we draw $\LS1/stix/m/it/10.03749 N$ \T1/stix/m/n/1
 0.03749 sam-ples
  []
 
-[4] [5]
-<./figures/tiga_n30.pdf, id=112, 397.485pt x 255.95625pt>
+
+Overfull \vbox (2.92944pt too high) has occurred while \output is active []
+
+
+[4]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5]
+<./figures/tiga_n30.pdf, id=111, 397.485pt x 255.95625pt>
 File: ./figures/tiga_n30.pdf Graphic file (type pdf)
 <use ./figures/tiga_n30.pdf>
-Package pdftex.def Info: ./figures/tiga_n30.pdf  used on input line 195.
+Package pdftex.def Info: ./figures/tiga_n30.pdf  used on input line 207.
 (pdftex.def)             Requested size: 317.98842pt x 204.76526pt.
 
-Underfull \hbox (badness 1496) in paragraph at lines 207--208
+Underfull \hbox (badness 1496) in paragraph at lines 219--220
 []\T1/stix/m/n/10.03749 To exam-ine the effect of adjust-ing the sam-ple size, 
 we eval-u-ated the oper-at-ing char-ac-ter-is-tics obtained for $\LS1/stix/m/it
 /10.03749 n \LS1/stix/m/n/10.03749 =
  []
 
-<./figures/tiga_c02.pdf, id=114, 216.81pt x 216.81pt>
+<./figures/tiga_c02.pdf, id=113, 216.81pt x 216.81pt>
 File: ./figures/tiga_c02.pdf Graphic file (type pdf)
 <use ./figures/tiga_c02.pdf>
-Package pdftex.def Info: ./figures/tiga_c02.pdf  used on input line 212.
+Package pdftex.def Info: ./figures/tiga_c02.pdf  used on input line 224.
 (pdftex.def)             Requested size: 114.71323pt x 170.71652pt.
-<./figures/tiga_c036.pdf, id=116, 216.81pt x 216.81pt>
+<./figures/tiga_c036.pdf, id=115, 216.81pt x 216.81pt>
 File: ./figures/tiga_c036.pdf Graphic file (type pdf)
 <use ./figures/tiga_c036.pdf>
-Package pdftex.def Info: ./figures/tiga_c036.pdf  used on input line 213.
+Package pdftex.def Info: ./figures/tiga_c036.pdf  used on input line 225.
 (pdftex.def)             Requested size: 90.06769pt x 170.71652pt.
-<./figures/tiga_c05.pdf, id=118, 216.81pt x 216.81pt>
+<./figures/tiga_c05.pdf, id=117, 216.81pt x 216.81pt>
 File: ./figures/tiga_c05.pdf Graphic file (type pdf)
 <use ./figures/tiga_c05.pdf>
-Package pdftex.def Info: ./figures/tiga_c05.pdf  used on input line 214.
+Package pdftex.def Info: ./figures/tiga_c05.pdf  used on input line 226.
 (pdftex.def)             Requested size: 146.07999pt x 170.71652pt.
 [6 <./figures/tiga_n30.pdf>] [7 <./figures/tiga_c02.pdf> <./figures/tiga_c036.p
 df> <./figures/tiga_c05.pdf>]
-<./figures/hyp_fu_cl.pdf, id=166, 284.06125pt x 198.7425pt>
+<./figures/hyp_fu_cl.pdf, id=164, 284.06125pt x 198.7425pt>
 File: ./figures/hyp_fu_cl.pdf Graphic file (type pdf)
 <use ./figures/hyp_fu_cl.pdf>
-Package pdftex.def Info: ./figures/hyp_fu_cl.pdf  used on input line 283.
+Package pdftex.def Info: ./figures/hyp_fu_cl.pdf  used on input line 295.
 (pdftex.def)             Requested size: 175.57532pt x 170.71652pt.
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <7.5> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 283.
-<./figures/hyp_ad_eff.pdf, id=168, 284.06125pt x 198.7425pt>
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 295.
+<./figures/hyp_ad_eff.pdf, id=166, 284.06125pt x 198.7425pt>
 File: ./figures/hyp_ad_eff.pdf Graphic file (type pdf)
 <use ./figures/hyp_ad_eff.pdf>
-Package pdftex.def Info: ./figures/hyp_ad_eff.pdf  used on input line 284.
+Package pdftex.def Info: ./figures/hyp_ad_eff.pdf  used on input line 296.
 (pdftex.def)             Requested size: 244.01048pt x 170.71652pt.
- [8 <./figures/hyp_fu_cl.pdf> <./figures/hyp_ad_eff.pdf>] [9]
-<./figures/p_front.pdf, id=224, 397.485pt x 255.95625pt>
+ [8]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [9 <./figures/hyp_fu_cl.pdf> <./figures/hyp_ad_eff.pdf>]
+<./figures/p_front.pdf, id=220, 397.485pt x 255.95625pt>
 File: ./figures/p_front.pdf Graphic file (type pdf)
 <use ./figures/p_front.pdf>
-Package pdftex.def Info: ./figures/p_front.pdf  used on input line 330.
+Package pdftex.def Info: ./figures/p_front.pdf  used on input line 342.
 (pdftex.def)             Requested size: 317.98842pt x 204.76526pt.
  (tables/reach_points.txt)
-<./figures/cost_OCs.pdf, id=228, 482.80376pt x 312.16624pt>
+[10 <./figures/p_front.pdf>]
+<./figures/cost_OCs.pdf, id=241, 482.80376pt x 312.16624pt>
 File: ./figures/cost_OCs.pdf Graphic file (type pdf)
 <use ./figures/cost_OCs.pdf>
-Package pdftex.def Info: ./figures/cost_OCs.pdf  used on input line 348.
+Package pdftex.def Info: ./figures/cost_OCs.pdf  used on input line 360.
 (pdftex.def)             Requested size: 386.24353pt x 249.73334pt.
-<./figures/k_comp.pdf, id=231, 397.485pt x 255.95625pt>
+<./figures/k_comp.pdf, id=245, 397.485pt x 255.95625pt>
 File: ./figures/k_comp.pdf Graphic file (type pdf)
 <use ./figures/k_comp.pdf>
-Package pdftex.def Info: ./figures/k_comp.pdf  used on input line 357.
+Package pdftex.def Info: ./figures/k_comp.pdf  used on input line 369.
 (pdftex.def)             Requested size: 317.98842pt x 204.76526pt.
-
-Underfull \hbox (badness 1418) in paragraph at lines 358--358
-[]\T1/stix/b/n/10.03749 FIGURE 6 |\T1/stix/m/n/10.03749 Oper-at-ing char-ac-ter
--is-tics of the REACH trial for sam-ple size $\LS1/stix/m/it/10.03749 k \LS1/st
-ix/m/n/10.03749 = 6\LS1/stix/m/it/10.03749 ; \LS1/stix/m/n/10.03749 12\LS1/stix
-/m/it/10.03749 ; \LS1/stix/m/n/10.03749 18$ \T1/stix/m/n/10.03749 and set-ting 
-$\LS1/stix/m/n/10.03749 .\LS1/stix/m/it/10.03749 c[]; c[]; c[]\LS1/stix/m/n/10.
-03749 / =
- []
-
+ [11 <./figures/cost_OCs.pdf>]
+<./figures/an_prior_comp.pdf, id=262, 397.485pt x 255.95625pt>
+File: ./figures/an_prior_comp.pdf Graphic file (type pdf)
+<use ./figures/an_prior_comp.pdf>
+Package pdftex.def Info: ./figures/an_prior_comp.pdf  used on input line 386.
+(pdftex.def)             Requested size: 317.98842pt x 204.76526pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [10 <./figures/p_front.pdf>] [11 <./figures/cost_OCs.pdf> <./figures/k_comp.pd
-f>]
-<./figures/an_prior_comp.pdf, id=266, 397.485pt x 255.95625pt>
-File: ./figures/an_prior_comp.pdf Graphic file (type pdf)
-<use ./figures/an_prior_comp.pdf>
-Package pdftex.def Info: ./figures/an_prior_comp.pdf  used on input line 374.
-(pdftex.def)             Requested size: 317.98842pt x 204.76526pt.
-
-[12 <./figures/an_prior_comp.pdf>] (Bayesian_pilot.bbl
+ [12 <./figures/k_comp.pdf> <./figures/an_prior_comp.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [13]
-[14] [15])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 450.
+(Bayesian_pilot.bbl [14] [15])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 455.
  [16]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 450.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 455.
  (Bayesian_pilot.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 450.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 450.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 450.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 455.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 455.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 455.
  ) 
 Here is how much of TeX's memory you used:
- 15519 strings out of 492970
- 219868 string characters out of 3135846
- 318943 words of memory out of 3000000
- 18982 multiletter control sequences out of 15000+200000
+ 15533 strings out of 492970
+ 220082 string characters out of 3135846
+ 320028 words of memory out of 3000000
+ 18993 multiletter control sequences out of 15000+200000
  130668 words of font info for 179 fonts, out of 3000000 for 9000
  1167 hyphenation exceptions out of 8191
- 43i,16n,49p,1682b,573s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 43i,16n,49p,1682b,537s stack positions out of 5000i,500n,10000p,200000b,50000s
 pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -1384,9 +1385,9 @@ s/meddwilb/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/stix/stix-mathrm-bold.
 pfb><C:/Users/meddwilb/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/stix/stix-
 mathrm.pfb><C:/Users/meddwilb/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/sti
 x/stix-mathsf.pfb>
-Output written on Bayesian_pilot.pdf (16 pages, 584725 bytes).
+Output written on Bayesian_pilot.pdf (16 pages, 589008 bytes).
 PDF statistics:
- 490 PDF objects out of 1000 (max. 8388607)
- 103 named destinations out of 1000 (max. 500000)
+ 502 PDF objects out of 1000 (max. 8388607)
+ 106 named destinations out of 1000 (max. 500000)
  211 words of extra memory for PDF output out of 10000 (max. 10000000)
 

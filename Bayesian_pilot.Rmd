@@ -79,24 +79,6 @@ ggplot(data.frame(x = seq(0,1,0.01)), aes(x)) +
   theme_minimal() + xlab("Parameter value") + ylab("Probability")
 ```
 
-Since the Beta distribution is conjugate for the binomial likelihood, we can easily obtain the posterior distribution given some data. For example:
-
-```{r, eval=T}
-# Data
-n <- 30; f <- 40; a <- 16
-
-f_a2 <- f_a+f; f_b2 <- f_b + (2*n - f)
-a_a2 <- a_a + a; a_b2 <- a_b + (n - a)
-
-# Plot priors and posteriors
-ggplot(data.frame(x = seq(0,1,0.01)), aes(x)) + 
-  stat_function(fun = dbeta, args=list(shape1=f_a, shape2=f_b), linetype=2, colour="blue") + 
-  stat_function(fun = dbeta, args=list(shape1=f_a2, shape2=f_b2), linetype=1, colour="blue") + 
-  stat_function(fun = dbeta, args=list(shape1=a_a, shape2=a_b), linetype=2, colour="red") + 
-  stat_function(fun = dbeta, args=list(shape1=a_a2, shape2=a_b2), linetype=1, colour="red") +
-  theme_minimal() + xlab("Parameter value") + ylab("Probability")
-```
-
 ### Operating characteristics
 
 Recall that the operating characteristics of interest take the form
@@ -172,13 +154,9 @@ NumericMatrix get_ocs_cpp(NumericMatrix df, int n, double c, NumericVector an_pr
 ```{r, eval=T}
 get_ocs2 <- function(c, n, N, f_c, a_c, des_pri, an_pri=des_pri)
 {
-  #set.seed(108325)
   df <- data.frame(p_f = rbeta(N, des_pri[1], des_pri[2]), p_a = rbeta(N, des_pri[3], des_pri[4]))
-  print(head(df))
   r <- get_ocs_cpp(as.matrix(df), n, c, an_pri, f_c, a_c)
-  #print(head(r))
-  print(summary(r))
-  
+
   c(sum((r[,1] > c)[!as.logical(r[,2])])/N, sum((r[,1] < c)[as.logical(r[,2])])/N)
 }
 
@@ -236,16 +214,19 @@ p1 + theme_minimal() + theme(legend.title=element_blank()) + ylim(c(0,0.3)) +
   ggtitle(expression(paste(c[1], " = 0.36"))) + theme(plot.title = element_text(hjust = 0.5)) 
 
 #ggsave("./paper/figures/tiga_c036.pdf", height=3, width=3)
+#ggsave("./paper/figures/tiga_c036.eps", height=3, width=3)
 
 p2 + theme_minimal() + theme(legend.title=element_blank()) + ylim(c(0,0.3)) +
   ggtitle(expression(paste(c[1], " = 0.2"))) + theme(plot.title = element_text(hjust = 0.5)) 
 
 #ggsave("./paper/figures/tiga_c02.pdf", height=3, width=3)
+#ggsave("./paper/figures/tiga_c02.eps", height=3, width=3)
 
 p3 + theme_minimal() + theme(legend.title=element_blank()) + ylim(c(0,0.3)) +
   ggtitle(expression(paste(c[1], " = 0.5"))) + theme(plot.title = element_text(hjust = 0.5)) 
 
 #ggsave("./paper/figures/tiga_c05.pdf", height=3, width=3)
+#ggsave("./paper/figures/tiga_c05.eps", height=3, width=3)
 ```
 
 Similarly, for a fixed sample size of $n=30$ we can vary $c$ and plot the results:
@@ -290,6 +271,7 @@ ggplot(df, aes(OC1, OC2)) + geom_line() + coord_fixed() + theme_minimal() +
   ylab(expression(paste(OC[2]," - discarded intervention")))
 
 #ggsave("./paper/figures/tiga_n30.pdf", height=9, width=14, units="cm")
+#ggsave("./paper/figures/tiga_n30.eps", height=9, width=14, units="cm")
 
 ## Print the results in a table
 tab <- df[c(11, 19, 26),]
@@ -297,9 +279,9 @@ tab$name <- c("a", "b", "c")
 tab <- tab[,c(6,1,2,3)]
 colnames(tab) <- c("Label", "$c_1$", "$OC_1$", "$OC_2$")
 
-print(xtable(tab, digits=2), booktabs = T, include.rownames = F, 
-       sanitize.text.function = function(x) {x}, floating = F,
-       file = "./paper/tables/tiga_points.txt")
+#print(xtable(tab, digits=2), booktabs = T, include.rownames = F, 
+#       sanitize.text.function = function(x) {x}, floating = F,
+#       file = "./paper/tables/tiga_points.txt")
 ```
 
 ## Example 2 - REACH
@@ -515,6 +497,7 @@ p <- draw_hyp(z, lim, df2)
 p + ylab(expression(mu[c])) + xlab(expression(p[f]))
 
 #ggsave("./paper/figures/hyp_fu_cl.pdf", width = 10, height = 7, units="cm")
+#ggsave("./paper/figures/hyp_fu_cl.eps", width = 10, height = 7, units="cm")
 
 # Efficacy and adherance
 
@@ -544,6 +527,7 @@ p <- draw_hyp(z, lim, df3)
 p + ylab(expression(p[a])) + xlab(expression(mu))
 
 #ggsave("./paper/figures/hyp_ad_eff.pdf", width = 10, height = 7, units="cm")
+#ggsave("./paper/figures/hyp_ad_eff.eps", width = 10, height = 7, units="cm")
 ```
 ### Simulation model
 
@@ -631,7 +615,7 @@ For a simulated data set, we use rstan to conduct the MCMC analysis.
 set.seed(320985097)
 ptm <- proc.time()
 fit <- fit2 <- fit3 <- NULL
-for(k in c(12, 18)){
+for(k in c(6, 12, 18)){
 
   res1 <- res2 <- res3 <- NULL
   preds <- NULL
@@ -717,6 +701,7 @@ proc.time() - ptm
 ```
 
 The Stan files are of the same form but with different analysis priors, as described previously. The weakly informative model is as follows:
+
 ```{stan, output.var="ex1", eval=F}
 data {
   int<lower=0> K;  // # of clusters
@@ -875,9 +860,11 @@ ggplot(df, aes(OC2, OC1, colour=OC3)) + geom_point() +
   annotate("text", x = df[hi[2],"OC2"]+shift, y = df[hi[2],"OC1"]+shift, label = "b") +
   annotate("text", x = df[hi[3],"OC2"]+shift, y = df[hi[3],"OC1"]+shift, label = "c") +
   ylab(expression(paste(OC[1]," - futile trial"))) + 
-  xlab(expression(paste(OC[2]," - discarded intervention")))
+  xlab(expression(paste(OC[2]," - discarded intervention"))) +
+  labs(colour = expression(OC[3]))
 
 #ggsave("./paper/figures/p_front.pdf", width = 14, height = 9, units="cm")
+#ggsave("./paper/figures/p_front.eps", width = 14, height = 9, units="cm")
 ```
 
 For the three points highligherd in the figure, print their actual operating characteristics:
@@ -896,7 +883,7 @@ tab[,5:6] <- round(tab[,5:6], 2)
 
 tab2 <- data.frame(Label = c("a", "b", "c"),
                    cs = apply(tab, 1, function(x) 
-                     paste0("(", x[5], ", ", x[6], ", ", 1-x[5]-x[6], ")")),
+                     paste0("(", x[5], ", ", 1-x[5]-x[6], ", ", x[6], ")")),
                    OC1 = apply(tab, 1, function(x)
                      paste0(x[1], " (", x[7], ")")),
                    OC2 = apply(tab, 1, function(x)
@@ -930,11 +917,12 @@ ggplot(g_df, aes(cost, prob)) + geom_point(alpha=0.5) +
   theme(panel.spacing = unit(2, "lines"))
 
 #ggsave("./paper/figures/cost_OCs.pdf", width = 17, height = 11, units="cm")
+#ggsave("./paper/figures/cost_OCs.eps", width = 17, height = 11, units="cm")
 ```
 
 Compare the results of the three different types of analysis priors:
 
-```{r, eval=F}
+```{r, eval=T}
 # Comparison of different analysis priors
 
 # Weakly informative everywhere
@@ -972,13 +960,16 @@ ggplot(temp, aes(IN, IA, colour = OC, shape=OC)) + geom_point(alpha=0.6) +
   geom_segment(x = 0, xend = 1, y = 0, yend = 1, linetype=2, colour="grey")
 
 #ggsave("./paper/figures/an_prior_comp.pdf", width = 14, height = 9, units="cm")
+#ggsave("./paper/figures/an_prior_comp.eps", width = 14, height = 9, units="cm")
 ```
 
 
 Compare OCs for different sample sizes for a specific choice of cost parameters.
 
 ```{r}
-cs <- c(0.068745599, 0.1161506696)
+#cs <- c(0.068745599, 0.1161506696)
+
+cs <- c(0.07, 0.03)
 
 df <- NULL
 for(k in c(6, 12, 18)){
@@ -1000,4 +991,5 @@ ggplot(df[df$variable != "EL",], aes(k, value, colour=variable)) +
   ylab("Probability") + xlab("No. clusters per arm")
 
 #ggsave("./paper/figures/k_comp.pdf", width = 14, height = 9, units="cm")
+#ggsave("./paper/figures/k_comp.eps", width = 14, height = 9, units="cm")
 ```
