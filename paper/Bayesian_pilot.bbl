@@ -14,6 +14,13 @@ Eldridge SM, Lancaster GA, Campbell MJ, et al. Defining Feasibility and Pilot
 \newblock \href {\doibase 10.1371/journal.pone.0150205} {doi:
   10.1371/journal.pone.0150205}
 
+\bibitem{Lancaster2004}
+Lancaster GA, Dodd S, Williamson PR. Design and analysis of pilot studies:
+  recommendations for good practice. {\it Journal of Evaluation in Clinical
+  Practice} 2004\string; 10(2)\string: 307--312.
+\newblock \href {\doibase 10.1111/j..2002.384.doc.x} {doi:
+  10.1111/j..2002.384.doc.x}
+
 \bibitem{NIHR2017}
 {National Institute for Health Research} . Research for Patient Benefit (RfPB)
   Programme Guidance on Applying for Feasibility Studies. 2017.
@@ -124,6 +131,32 @@ Walley RJ, Smith CL, Gale JD, Woodward P. Advantages of a wholly Bayesian
   Pharmaceutical Statistics} 2015\string; 14(3)\string: 205--215.
 \newblock \href {\doibase 10.1002/pst.1675} {doi: 10.1002/pst.1675}
 
+\bibitem{Gelman2008}
+Gelman A, Jakulin A, Pittau MG, Su YS. A weakly informative default prior
+  distribution for logistic and other regression models. {\it The Annals of
+  Applied Statistics} 2008\string; 2(4)\string: 1360--1383.
+\newblock \href {\doibase 10.1214/08-aoas191} {doi: 10.1214/08-aoas191}
+
+\bibitem{Spiegelhalter2001}
+Spiegelhalter DJ. Bayesian methods for cluster randomized trials with
+  continuous responses. {\it Statistics in Medicine} 2001\string; 20(3)\string:
+  435--452.
+\newblock \href {\doibase
+  10.1002/1097-0258(20010215)20:3<435::AID-SIM804>3.0.CO;2-E} {doi:
+  10.1002/1097-0258(20010215)20:3<435::AID-SIM804>3.0.CO;2-E}
+
+\bibitem{Dallow2018}
+Dallow N, Best N, Montague TH. Better decision making in drug development
+  through adoption of formal prior elicitation. {\it Pharmaceutical Statistics}
+  2018\string; 0(0).
+\newblock \href {\doibase 10.1002/pst.1854} {doi: 10.1002/pst.1854}
+
+\bibitem{OHagan2006a}
+O'Hagan A, Buck CE, Daneshkhah A, et al. {\it Uncertain Judgements: Eliciting
+  Experts' Probabilities}.
+\newblock John Wiley and Sons .
+\newblock 2006.
+
 \bibitem{French2000}
 French S, Insua DR. {\it Statistical Decision Theory}.
 \newblock No.~9 in Kendall's Library of StatisticsOxford University Press .
@@ -141,14 +174,6 @@ Forster A, , Airlie J, et al. Research Exploring Physical Activity in Care
   Trials} 2017\string; 18(1).
 \newblock \href {\doibase 10.1186/s13063-017-1921-8} {doi:
   10.1186/s13063-017-1921-8}
-
-\bibitem{Spiegelhalter2001}
-Spiegelhalter DJ. Bayesian methods for cluster randomized trials with
-  continuous responses. {\it Statistics in Medicine} 2001\string; 20(3)\string:
-  435--452.
-\newblock \href {\doibase
-  10.1002/1097-0258(20010215)20:3<435::AID-SIM804>3.0.CO;2-E} {doi:
-  10.1002/1097-0258(20010215)20:3<435::AID-SIM804>3.0.CO;2-E}
 
 \bibitem{rstan}
 {Stan Development Team} . {RStan}: the {R} interface to {Stan}. 2016.
@@ -171,18 +196,6 @@ Mander AP, Wason JM, Sweeting MJ, Thompson SG. Admissible two-stage designs for
 Bacchetti P. Current sample size conventions: Flaws, harms, and alternatives.
   {\it BMC Medicine} 2010\string; 8(1)\string: 17.
 \newblock \href {\doibase 10.1186/1741-7015-8-17} {doi: 10.1186/1741-7015-8-17}
-
-\bibitem{Dallow2018}
-Dallow N, Best N, Montague TH. Better decision making in drug development
-  through adoption of formal prior elicitation. {\it Pharmaceutical Statistics}
-  2018\string; 0(0).
-\newblock \href {\doibase 10.1002/pst.1854} {doi: 10.1002/pst.1854}
-
-\bibitem{OHagan2006a}
-O'Hagan A, Buck CE, Daneshkhah A, et al. {\it Uncertain Judgements: Eliciting
-  Experts' Probabilities}.
-\newblock John Wiley and Sons .
-\newblock 2006.
 
 \bibitem{Sutton2007}
 Sutton AJ, Cooper NJ, Jones DR, Lambert PC, Thompson JR, Abrams KR.
@@ -216,13 +229,6 @@ Roustant O, Ginsbourger D, Deville Y. {DiceKriging}, {DiceOptim}: Two {R}
   Packages for the Analysis of Computer Experiments by Kriging-Based
   Metamodeling and Optimization. {\it Journal of Statistical Software}
   2012\string; 51(1)\string: 1--55.
-
-\bibitem{Lancaster2004}
-Lancaster GA, Dodd S, Williamson PR. Design and analysis of pilot studies:
-  recommendations for good practice. {\it Journal of Evaluation in Clinical
-  Practice} 2004\string; 10(2)\string: 307--312.
-\newblock \href {\doibase 10.1111/j..2002.384.doc.x} {doi:
-  10.1111/j..2002.384.doc.x}
 
 \bibitem{Lindley1997}
 Lindley DV. The choice of sample size. {\it Journal of the Royal Statistical
